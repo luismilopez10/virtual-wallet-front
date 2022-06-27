@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import loggedInReducer from './loggedInSlice';
+import transaccionReducer from "../features/transaccionSlice";
 
 const store = configureStore({
     reducer: {
-        logged: loggedInReducer
+        logged: loggedInReducer,        
+        transacciones:transaccionReducer
     },
 });
 
