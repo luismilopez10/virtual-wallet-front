@@ -14,3 +14,14 @@ html, body {
   place-items: center;
   background: #fff;
 }
+
+.user-logged {
+  font-style: italic;
+  margin: 1rem;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: #888;
+}
+.user-logged::before {
+  content: 'User: ';
+}

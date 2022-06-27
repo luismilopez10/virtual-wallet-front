@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+import loggedInReducer from './loggedInSlice';
 
 const store = configureStore({
     reducer: {
-        
+        logged: loggedInReducer
     },
 });
 

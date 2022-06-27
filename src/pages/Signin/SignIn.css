@@ -1,0 +1,101 @@
+.signin__body {
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+}
+
+.signin__container {
+  background: #fff;
+  max-width: 350px;
+  width: 350px;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
+}
+
+.signin__container form .title {
+  font-size: 30px;
+  font-weight: 600;
+  margin: 20px 0 10px 0;
+  position: relative;
+}
+
+.signin__container form .input-box {
+  width: 100%;
+  height: 45px;
+  margin-top: 25px;
+  position: relative;
+}
+
+.signin__container form .input-box input {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 16px;
+  border: none;
+}
+
+.signin__container form .underline::before {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: #ccc;
+  left: 0;
+  bottom: 0;
+}
+
+.signin__container form .underline::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(to right, #eee 0%, #000 100%);
+  left: 0;
+  bottom: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: all 0.3s ease;
+}
+
+.signin__container form .input-box input:focus~.underline::after,
+.signin__container form .input-box input:valid~.underline::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.signin__container form .button {
+  margin: 40px 0 20px 0;
+}
+
+.signin__container .input-box input[type="submit"] {
+  background: linear-gradient(to right, #4590fb 0%, #4590fb 100%);
+  font-size: 17px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.signin__container .input-box input[type="submit"]:hover {
+  letter-spacing: 1px;
+  background: linear-gradient(to left, #4590fb 0%, #4590fb 100%);
+}
+
+.signin__container .option {
+  font-size: 14px;
+  text-align: center;
+}
+
+
+/* #### Error Message #### */
+.signin__error-message-on {
+  margin-top: 1rem;
+  text-align: left;
+  font-size: 0.8rem;
+  display: inline-block;
+  color: rgb(220, 0, 0);
+}
+.signin__error-message-off {
+  display: none;
+}
