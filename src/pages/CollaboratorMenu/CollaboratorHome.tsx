@@ -1,19 +1,22 @@
 
-
+import { Auth } from 'firebase/auth';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 import CollaboratorMenu from '../../components/colaboradorHistorial/collaboratorMenu';
 import './CollaboratorHome.css';
 
 
-const CollaboratorHome= () => {
+const CollaboratorHome = () => {
 
-   
+
+    const { user } = useSelector((state: RootState) => state.logged);
 
     return (<div>
-        <h1>Hola  desde la pagina principal</h1>
-        <CollaboratorMenu/>
+        <h1>Hola {user}</h1>
+        <CollaboratorMenu />
 
     </div>
-        
+
     )
 }
 
