@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from '../app/store'
-import { getAllTransacciones} from '../actions/transactions/getAllTransacciones'
+import { getAllTransactions } from '../actions/transactions/getAllTransactions'
+import { postTransaction } from "../actions/transactions/postTransaction";
 
 
 export enum requestStatus {
@@ -10,30 +11,30 @@ export enum requestStatus {
     PENDING = 'pending',
 }
 
-type transaccionType = {
+type transactionType = {
     id:string
-    origen: string,
-    destinatario: string,
-    cantidad: number,
-    fecha: number
+    source: string,
+    receiver: string,
+    amount: number,
+    date: string
     
     
 }
 
 
-interface transaccionStateType {
-    transacciones: transaccionType[],
+interface transactionStateType {
+    transactions: transactionType[],
     status: requestStatus,
     error: string | null
 }
 
-const initialState: transaccionStateType = {
-    transacciones: [],
+const initialState: transactionStateType = {
+    transactions: [],
     status: requestStatus.IDLE,
     error: null,
 }
 
-const transaccionSlice = createSlice({
+const transactionSlice = createSlice({
     name: 'transaccion',
     initialState,
     reducers: {
@@ -41,26 +42,38 @@ const transaccionSlice = createSlice({
     },
     extraReducers: (builder) => {
         //Traer las transacciones
-        builder.addCase(getAllTransacciones.pending, (state, action) => {
+        builder.addCase(getAllTransactions.pending, (state, action) => {
             state.status = requestStatus.PENDING
         })
-        builder.addCase(getAllTransacciones.fulfilled, (state, action) => {
+        builder.addCase(getAllTransactions.fulfilled, (state, action) => {
             state.status = requestStatus.COMPLETED
-            state.transacciones = action.payload
+            state.transactions = action.payload
         })
-        builder.addCase(getAllTransacciones.rejected, (state, action) => {
+        builder.addCase(getAllTransactions.rejected, (state, action) => {
             state.status = requestStatus.FAILED
             state.error = "Algo salio mal buscando las transacciones"
-            state.transacciones = []
+            state.transactions = []
+        })
+        //post a una transaccion
+        builder.addCase(postTransaction.pending, (state) => {
+            state.status = requestStatus.PENDING
+        })
+        builder.addCase(postTransaction.fulfilled, (state, action) => {
+            state.status = requestStatus.COMPLETED
+            state.transactions.push(action.payload)
+        })
+        builder.addCase(postTransaction.rejected, (state) => {
+            state.status = requestStatus.FAILED
+            state.error = "Ocurrio un error mientras se generaba la transaccion"
         })
 
 }
 })
 
 
-export type { transaccionType }
-export type { transaccionStateType }
-export default transaccionSlice.reducer
-export const selectTransaccionState = () => (state: RootState) => state.transacciones.transacciones
+export type { transactionType }
+export type { transactionStateType }
+export default transactionSlice.reducer
+export const selectTransaccionState = () => (state: RootState) => state.transacciones.transactions
 export const selectTransaccionStatus = () => (state: RootState) => state.transacciones.status
 export const selectTransaccionFetchError = () => (state: RootState) => state.transacciones.error
