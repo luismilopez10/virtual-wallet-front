@@ -60,7 +60,7 @@ const SignIn = () => {
                                 setPassword('');
                                 setPasswordConfirm('');
 
-                                alert('Registro exitoso. Por favor revise su bandeja de entrada para verificar su correo electrónico.');
+                                alert('Registro exitoso. Por favor revise su bandeja de entrada para verificar su correo electrónico. Verifique su carpeta de spam o no deseados.');
             
                                 navigate('/login');
                             })
