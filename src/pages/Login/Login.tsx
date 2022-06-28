@@ -1,14 +1,14 @@
-import { signInWithEmailAndPassword, sendEmailVerification, User } from "firebase/auth";
+import { signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, User } from "firebase/auth";
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
+import { adminEmail } from "../../App";
 import { logInInReducer } from "../../app/loggedInSlice";
 import { auth } from "../../firebaseConfig";
 import './Login.css';
 
 const Login = () => {
 
-  const adminEmail = 'admin@gmail.com';
   const errorMsgClassNameOn = 'login__error-message-on';
   const errorMsgClassNameOff = 'login__error-message-off';
 
@@ -20,7 +20,7 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [errorMsgClassName, setErrorMsgClassName] = useState(errorMsgClassNameOff);
 
-  function sendEmail(currentUser: User) {
+  function sendEmailVerif(currentUser: User) {
     sendEmailVerification(currentUser)
       .then(() => {
         // Correo enviado
@@ -55,30 +55,33 @@ const Login = () => {
             setErrorMsg('Correo electrónico no verificado. Revise su bandeja de entrada.');
             setErrorMsgClassName(errorMsgClassNameOn);
 
-            sendEmail(user);
+            sendEmailVerif(user);
           }
 
-          console.log('**** user credentials ****');
-          console.log(userCredential);
-          console.log('**** user ***');
-          console.log(user);
+          // console.log('**** user credentials ****');
+          // console.log(userCredential);
+          // console.log('**** user ***');
+          // console.log(user);
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
 
-          console.log('*** Log in error ***');
-          console.log(errorMessage);
+          // console.log('*** Log in error ***');
+          // console.log(errorMessage);
 
-          if (errorCode === "auth/user-not-found") {
-            setErrorMsg("El correo ingresado no se encuentra registrado.");
-            setPassword('');
-          } else if (errorCode === "auth/wrong-password") {
-            setErrorMsg("Contraseña incorrecta. Por favor inténtelo de nuevo.");
-            setPassword('');
-          } else if (errorCode === "auth/too-many-requests") {
-            setErrorMsg("El acceso a esta cuenta se ha inhabilitado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restaurarlo inmediatamente restableciendo su contraseña o puede volver a intentarlo más tarde.");
-            setPassword('');
+          switch (errorCode){
+            case "auth/user-not-found":
+              setErrorMsg("El correo ingresado no se encuentra registrado.");
+              setPassword('');
+            
+            case "auth/wrong-password":
+              setErrorMsg("Contraseña incorrecta. Por favor inténtelo de nuevo.");
+              setPassword('');
+              
+            case "auth/too-many-requests":
+              setErrorMsg("El acceso a esta cuenta se ha inhabilitado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restaurarlo inmediatamente restableciendo su contraseña o puede volver a intentarlo más tarde.");
+              setPassword('');
           }
 
           setErrorMsgClassName(errorMsgClassNameOn);
@@ -91,10 +94,15 @@ const Login = () => {
     navigate('/signin');
   }
 
+  const resetPassword = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    navigate('/resetpassword');
+  }
+
   return (
     <div className='login__body'>
       <div className="login__container">
-        <form onSubmit={(e) => logInWithEmailAndPassword(e)}>
+        <form autoComplete="on" onSubmit={(e) => logInWithEmailAndPassword(e)}>
           <div className="title">Inicio de Sesión</div>
           <div className="input-box underline">
             <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
@@ -104,13 +112,13 @@ const Login = () => {
             <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
             <div className="underline"></div>
           </div>
-          <span className="option"><a href="#" onClick={(e) => { }}>Recuperar contraseña</a></span>
+          <span className="option"><a href="" onClick={(e) => {resetPassword(e)}}>Recuperar contraseña</a></span>
           <br />
           <span className={errorMsgClassName}>{errorMsg}</span>
           <div className="input-box button">
             <input type="submit" name="" value="Iniciar sesión" />
           </div>
-          <span className="option"><a href="#" onClick={(e) => signIn(e)}>Registrarse</a></span>
+          <span className="option"><a href="" onClick={(e) => signIn(e)}>Registrarse</a></span>
         </form>
       </div>
     </div>

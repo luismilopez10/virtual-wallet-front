@@ -47,13 +47,16 @@ const SignIn = () => {
                     console.log('*** sign in error ***');
                     console.log(errorMessage);
 
-                    if (errorCode === "auth/weak-password") {
-                        setErrorMsg("La contraseña debe tener al menos 6 caracteres.");
-                        setPassword('');
-                    } else if (errorCode === "auth/email-already-in-use") {
-                        setErrorMsg("El correo ingresado ya se encuentra en uso.");
-                        setPassword('');
+                    switch (errorCode){
+                        case "auth/weak-password":
+                            setErrorMsg("La contraseña debe tener al menos 6 caracteres.");
+                            setPassword('');
+                        
+                        case "auth/email-already-in-use":
+                            setErrorMsg("El correo ingresado ya se encuentra en uso.");
+                            setPassword('');
                     }
+
                     setErrorMsgClassName(errorMsgClassNameOn);
                 });
         }
@@ -62,7 +65,7 @@ const SignIn = () => {
     return (
         <div className='signin__body'>
             <div className="signin__container">
-                <form onSubmit={(e) => signInForm(e)}>
+                <form autoComplete="on" onSubmit={(e) => signInForm(e)}>
                     <div className="title">Registrarse</div>
                     <div className="input-box underline">
                         <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />

@@ -69,7 +69,7 @@
 }
 
 .signin__container .input-box input[type="submit"] {
-  background: linear-gradient(to right, #4590fb 0%, #4590fb 100%);
+  background: linear-gradient(to right, #51BBFE 0%, #51BBFE 100%);
   font-size: 17px;
   color: #fff;
   border-radius: 5px;
@@ -78,8 +78,8 @@
 }
 
 .signin__container .input-box input[type="submit"]:hover {
-  letter-spacing: 1px;
-  background: linear-gradient(to left, #4590fb 0%, #4590fb 100%);
+  letter-spacing: 0.2px;
+  background: linear-gradient(to left, #51BBFE 0%, #51BBFE 100%);
 }
 
 .signin__container .option {
