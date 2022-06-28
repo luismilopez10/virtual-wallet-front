@@ -38,15 +38,15 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
 
-          console.log(user);
+          // console.log(user);
 
           if (user.email === adminEmail) {
-            dispatch(logInInReducer(user));
+            dispatch(logInInReducer(user.email));
             //  TODO: cambiar el navigate a la dirección correcta para Admin
             navigate('/inicio-admin');
           } else {
             if (user.emailVerified) {
-              dispatch(logInInReducer(user));
+              dispatch(logInInReducer(user.email));
               //  TODO: cambiar el navigate a la dirección correcta para Colaborador
               navigate('/inicio-colab');  
             } else {

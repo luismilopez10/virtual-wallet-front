@@ -5,9 +5,9 @@ import { RootState } from './app/store';
 import Login from './pages/Login/Login';
 import SignIn from './pages/Signin/SignIn';
 import PasswordReset from './pages/Login/PasswordReset';
+import CollaboratorHome from './pages/CollaboratorMenu/CollaboratorHome';
 import './App.css';
 import './Nav.css';
-import CollaboratorHome from './pages/CollaboratorMenu/collaboratorHome';
 
 export const adminEmail = 'admin@gmail.com';
 
