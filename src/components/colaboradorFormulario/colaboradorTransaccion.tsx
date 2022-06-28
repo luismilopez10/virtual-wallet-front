@@ -19,6 +19,7 @@ const colaboradorTransaccion: React.FunctionComponent = () => {
             //TODO: post de la transaccion
             //TODO: put para cambiar los saldos de ambas cuentas
             //TODO: limpiar los campos
+            //TODO: redirigir al menu de usuario
 
         } else {
             alert('Debe haber un usuario y un valor para que se realize la transaccion')

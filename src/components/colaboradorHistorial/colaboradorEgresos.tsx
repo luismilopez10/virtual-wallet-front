@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import { useAppDispatch } from '../../app/store'
 import { useSelector } from 'react-redux';
 import { requestStatus, selectTransaccionFetchError, selectTransaccionState, selectTransaccionStatus, transaccionType } from "../../features/transaccionSlice";
-import { getAllTransacciones } from '../../actions/getAllTransacciones';
+import { getAllTransacciones } from '../../actions/transactions/getAllTransacciones';
 
 
-const colaboradorEnvios: React.FunctionComponent = () => {
+const colaboradorEgresos: React.FunctionComponent = () => {
 
     const dispatch = useAppDispatch();
 
@@ -18,6 +18,10 @@ const colaboradorEnvios: React.FunctionComponent = () => {
     const error = useSelector(selectTransaccionFetchError())
     const status = useSelector(selectTransaccionStatus())
     const getAllTransaccions = useSelector(selectTransaccionState())
+
+
+    //TODO: traer el correo de la persona cuya sesion esta activa para poder mapear sus datos
+    //TODO: agregar estilo a la cantidad de dinero para que sea rojo pues son egresos
 
     return (<div>
         <table>
@@ -47,4 +51,4 @@ const colaboradorEnvios: React.FunctionComponent = () => {
 }
 
 
-export default colaboradorEnvios
+export default colaboradorEgresos

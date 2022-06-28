@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from '../app/store'
-import { getAllTransacciones} from '../actions/getAllTransacciones'
+import { getAllTransacciones} from '../actions/transactions/getAllTransacciones'
 
 
 export enum requestStatus {
