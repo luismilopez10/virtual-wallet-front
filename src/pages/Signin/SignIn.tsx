@@ -8,71 +8,118 @@ const SignIn = () => {
 
     const errorMsgClassNameOn = 'signin__error-message-on';
     const errorMsgClassNameOff = 'signin__error-message-off';
+    const passwordRequisitesClassNameOn = 'password_requisites_message_on';
+    const passwordRequisitesClassNameOff = 'password_requisites_message_off';
+    const passwordPattern = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]{1,})(?=.*[^A-Za-z0-9]).{8,}";
+    const emailPattern = "([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])";
 
     const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
     const [errorMsgClassName, setErrorMsgClassName] = useState(errorMsgClassNameOff);
+    const [passwordRequisitesClassName, setPasswordRequisitesClassName] = useState(passwordRequisitesClassNameOff);
 
     const signInForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        
+        setErrorMsgClassName(errorMsgClassNameOff);
+        setPasswordRequisitesClassName(passwordRequisitesClassNameOff);
+
         if (password && email) {
-            createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
+            
+            if (!password.match(passwordPattern)) {
+                setErrorMsg("La contraseña no cumple con los requisitos.");
+                setErrorMsgClassName(errorMsgClassNameOn);
+                setPasswordRequisitesClassName(passwordRequisitesClassNameOn);
 
-                    // console.log("****user****");
-                    // console.log(user);
+            } else if(password !== passwordConfirm) {
+                setErrorMsg("Las contraseñas no coinciden.");
+                setErrorMsgClassName(errorMsgClassNameOn);
 
-                    sendEmailVerification(user)
-                        .then(() => {
-                            // Correo enviado
-                        })
-                        .catch(() => {
-                            // Ocurrió un error
-                        });
+            }else if (!email.match(emailPattern)) {
+                setErrorMsg("El correo ingresado no es un correo válido.");
+                setErrorMsgClassName(errorMsgClassNameOn);
 
-                    alert('Registro exitoso. Por favor revise su correo electrónico e ingrese al link que encontrará en el mensaje para confirmar su correo.');
+            } else{                
+                setErrorMsgClassName(errorMsgClassNameOff);
+                setPasswordRequisitesClassName(passwordRequisitesClassNameOff);
 
-                    navigate('/login');
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+    
+                        // console.log("****user****");
+                        // console.log(user);
+    
+                        sendEmailVerification(user)
+                            .then(() => {
+                                setEmail('');
+                                setPassword('');
+                                setPasswordConfirm('');
 
-                    console.log('*** sign in error code ***');
-                    console.log(errorCode);
-                    console.log('*** sign in error ***');
-                    console.log(errorMessage);
-
-                    if (errorCode === "auth/weak-password") {
-                        setErrorMsg("La contraseña debe tener al menos 6 caracteres.");
-                        setPassword('');
-                    } else if (errorCode === "auth/email-already-in-use") {
-                        setErrorMsg("El correo ingresado ya se encuentra en uso.");
-                        setPassword('');
-                    }
-                    setErrorMsgClassName(errorMsgClassNameOn);
-                });
+                                alert('Registro exitoso. Por favor revise su bandeja de entrada para verificar su correo electrónico.');
+            
+                                navigate('/login');
+                            })
+                            .catch((error) => {
+                                console.log("****error****");
+                                console.log(error);
+                            });
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+    
+                        console.log('*** sign in error code ***');
+                        console.log(errorCode);
+                        console.log('*** sign in error ***');
+                        console.log(errorMessage);
+    
+                        switch (errorCode) {
+                            case "auth/weak-password":
+                                setErrorMsg("La contraseña debe tener al menos 6 caracteres.");
+                                setPassword('');
+                                break;
+    
+                            case "auth/email-already-in-use":
+                                setErrorMsg("El correo ingresado ya se encuentra en uso.");
+                                setPassword('');
+                                break;
+                        }
+    
+                        setErrorMsgClassName(errorMsgClassNameOn);
+                    });
+            }
         }
     }
 
     return (
         <div className='signin__body'>
             <div className="signin__container">
-                <form onSubmit={(e) => signInForm(e)}>
+                <form autoComplete="on" onSubmit={(e) => signInForm(e)}>
                     <div className="title">Registrarse</div>
                     <div className="input-box underline">
-                        <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                        <input type="text" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
                         <div className="underline"></div>
                     </div>
                     <div className="input-box">
                         <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
                         <div className="underline"></div>
                     </div>
+                    <div className="input-box">
+                        <input type="password" placeholder="Confirmar contraseña" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} required />
+                        <div className="underline"></div>
+                    </div>
                     <br />
+                    <div className={passwordRequisitesClassName}>
+                        <h3>La contraseña debe contener:</h3>
+                        <li>Mínimo 8 caracteres alfanuméricos</li>
+                        <li>Al menos una mayúscula</li>
+                        <li>Al menos un caracteres especial</li>
+                    </div>
                     <span className={errorMsgClassName}>{errorMsg}</span>
                     <div className="input-box button">
                         <input type="submit" name="" value="Crear cuenta" />
