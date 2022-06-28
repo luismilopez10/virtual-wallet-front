@@ -1,10 +1,9 @@
 
-import { useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
-import CollaboratorMenu from '../../components/colaboradorHistorial/collaboratorMenu';
-import './CollaboratorMenu.css';
 
-const { user } = useSelector((state: RootState) => state.logged);
+import CollaboratorMenu from '../../components/colaboradorHistorial/collaboratorMenu';
+import './CollaboratorHome.css';
+
+
 const CollaboratorHome= () => {
 
    
