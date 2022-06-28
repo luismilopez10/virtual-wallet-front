@@ -7,6 +7,7 @@ import SignIn from './pages/Signin/SignIn';
 import PasswordReset from './pages/Login/PasswordReset';
 import './App.css';
 import './Nav.css';
+import CollaboratorHome from './pages/CollaboratorMenu/collaboratorHome';
 
 export const adminEmail = 'admin@gmail.com';
 
@@ -56,7 +57,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/resetpassword" element={<PasswordReset />} />
         <Route path="/inicio-admin" element={<></>} />
-        <Route path="/inicio-colab" element={<></>} />
+        <Route path="/inicio-colab" element={<CollaboratorHome/>} />
       </Routes>
     </BrowserRouter>
   )
