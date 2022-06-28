@@ -8,7 +8,7 @@ import PasswordReset from './pages/Login/PasswordReset';
 import './App.css';
 import './Nav.css';
 
-export const adminEmail = 'admin@gmail.com';
+export const adminEmail = 'juan.velez993@gmail.com';
 
 function App() {
 
