@@ -35,6 +35,7 @@ const PasswordReset = () => {
                             case "auth/user-not-found":                                
                                 setErrorMsg('El correo ingresado no se encuentra registrado.');
                                 setErrorMsgClassName(errorMsgClassNameOn);
+                                break;
                         }
                     })
             } else {

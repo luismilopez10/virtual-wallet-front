@@ -10,7 +10,7 @@
   width: 350px;
   padding: 25px 30px;
   border-radius: 5px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.45);
 }
 
 .login__container form .title {
@@ -91,11 +91,24 @@
 .login__error-message-on {
   margin-top: 1rem;
   text-align: left;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   display: inline-block;
   color: rgb(220, 0, 0);
 }
 
 .login__error-message-off {
+  display: none;
+}
+
+/* #### Re Send Verification Email Message #### */
+.login__re-send-email-message-on {
+  margin-top: 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  display: inline-block;
+  color: #51BBFE;
+}
+
+.login__re-send-email-message-off {
   display: none;
 }

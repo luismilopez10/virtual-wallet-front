@@ -40,22 +40,21 @@ const Login = () => {
 
           console.log(user);
 
-          if (user.emailVerified) {
+          if (user.email === adminEmail) {
             dispatch(logInInReducer(user));
-
-            if (user.email === adminEmail) {
-              //  TODO: cambiar el navigate a la dirección correcta para Admin
-              navigate('/inicio-admin');
-            }else{
-              //  TODO: cambiar el navigate a la dirección correcta para Colaborador
-              navigate('/inicio-colab');
-            }
-
+            //  TODO: cambiar el navigate a la dirección correcta para Admin
+            navigate('/inicio-admin');
           } else {
-            setErrorMsg('Correo electrónico no verificado. Revise su bandeja de entrada.');
-            setErrorMsgClassName(errorMsgClassNameOn);
-
-            sendEmailVerif(user);
+            if (user.emailVerified) {
+              dispatch(logInInReducer(user));
+              //  TODO: cambiar el navigate a la dirección correcta para Colaborador
+              navigate('/inicio-colab');  
+            } else {
+              setErrorMsg('El correo electrónico aún no ha sido verificado. Por favor verifíquelo e intente de nuevo.');
+              setErrorMsgClassName(errorMsgClassNameOn);
+  
+              sendEmailVerif(user);
+            }
           }
 
           // console.log('**** user credentials ****');
@@ -67,21 +66,24 @@ const Login = () => {
           const errorCode = error.code;
           const errorMessage = error.message;
 
-          // console.log('*** Log in error ***');
-          // console.log(errorMessage);
+          console.log('*** Log in error ***');
+          console.log(errorMessage);
 
-          switch (errorCode){
+          switch (errorCode) {
             case "auth/user-not-found":
               setErrorMsg("El correo ingresado no se encuentra registrado.");
               setPassword('');
-            
+              break;
+
             case "auth/wrong-password":
               setErrorMsg("Contraseña incorrecta. Por favor inténtelo de nuevo.");
               setPassword('');
-              
+              break;
+
             case "auth/too-many-requests":
               setErrorMsg("El acceso a esta cuenta se ha inhabilitado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restaurarlo inmediatamente restableciendo su contraseña o puede volver a intentarlo más tarde.");
               setPassword('');
+              break;
           }
 
           setErrorMsgClassName(errorMsgClassNameOn);
@@ -112,7 +114,7 @@ const Login = () => {
             <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
             <div className="underline"></div>
           </div>
-          <span className="option"><a href="" onClick={(e) => {resetPassword(e)}}>Recuperar contraseña</a></span>
+          <span className="option"><a href="" onClick={(e) => { resetPassword(e) }}>Recuperar contraseña</a></span>
           <br />
           <span className={errorMsgClassName}>{errorMsg}</span>
           <div className="input-box button">
