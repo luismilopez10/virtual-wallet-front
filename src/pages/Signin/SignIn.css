@@ -108,8 +108,8 @@
   font-size: 0.8rem;
 }
 .password_requisites_message_on li {
-  list-style: none;
-  font-size: 0.75rem;
+  font-size: 0.70rem;
+  padding-left: 1rem;
 }
 .password_requisites_message_off {
   display: none;
