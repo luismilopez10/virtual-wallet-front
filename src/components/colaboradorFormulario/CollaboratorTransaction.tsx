@@ -17,7 +17,11 @@ const CollaboratorTransaction: React.FunctionComponent = () => {
     const [reciever, setReciever] = useState('')
     const [amount, setAmount] = useState(0)
     const navigate = useNavigate()
+
     useEffect(() => {
+        if (user === null) {
+            navigate('/login');
+        } 
         if (status === requestStatus.IDLE) {
             dispatch(getAllCollaborators())
         }

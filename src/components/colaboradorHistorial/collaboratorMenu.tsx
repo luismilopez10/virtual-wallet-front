@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getAllCollaborators } from '../../actions/collaborators/getAllCollaborators';
 import { RootState, useAppDispatch } from '../../app/store';
 import { selectCollaboratorStateTypeFetchError, selectCollaboratorStateTypeState, selectCollaboratorStateTypeStatus } from '../../features/collaboratorSlice';
@@ -12,7 +12,13 @@ import { requestStatus } from '../../features/transaccionSlice';
 const collaboratorMenu = () => {
   const { user } = useSelector((state: RootState) => state.logged);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
+
+
   useEffect(() => {
+    if (user === null) {
+      navigate('/login');
+    }
     if (status === requestStatus.IDLE) {
       dispatch(getAllCollaborators())
     }

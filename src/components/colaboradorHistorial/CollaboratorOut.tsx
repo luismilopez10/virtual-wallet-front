@@ -3,15 +3,19 @@ import { RootState, useAppDispatch } from '../../app/store'
 import { useSelector } from 'react-redux';
 import { requestStatus, selectTransaccionFetchError, selectTransaccionState, selectTransaccionStatus, transactionType } from "../../features/transaccionSlice";
 import { getAllTransactionsOut } from '../../actions/transactions/getAllTransactionsOut';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const CollaboratorOut: React.FunctionComponent = () => {
 
     const dispatch = useAppDispatch();
+    const navigate = useNavigate()
     const { user } = useSelector((state: RootState) => state.logged);
 
     useEffect(() => {
+        if (user === null) {
+          navigate('/login');
+        }
         if (status === requestStatus.IDLE) {
             dispatch(getAllTransactionsOut(user))
         }
