@@ -56,7 +56,7 @@ const Login = () => {
 
   const loginIfNotLogged = (currentUserState: collaboratorType) => {
     if (currentUserState.logged) {
-      alert(`El usuario ${currentUserState.email} ya se encuentra logeado en otra sesión.`);
+      alert(`El usuario ${currentUserState.email} ya se encuentra logueado en otra sesión.`);
     }else{
       const updateCollaboratorlogged: collaboratorType = {
         email: currentUserState.email,
