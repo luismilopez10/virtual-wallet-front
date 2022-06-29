@@ -59,14 +59,14 @@ function App() {
       {user === null ?
         <header>
         <nav className='nav nav__container'>
-            <Link to={goHome}><img className="nav__logo" src='./src/assets/wallet-icon.png'></img></Link>
+            <Link to={goHome}><i className="nav__logo" ></i></Link>
             <span className='navbar-brand'>Virtual Wallet</span>
           </nav>
         </header>
         :
         <header>
           <nav className='nav nav__container'>
-            <Link to={goHome}><img className="nav__logo" src='./src/assets/wallet-icon.png'></img></Link>
+            <Link to={goHome}><i className="nav__logo" ></i></Link>
             <span className='navbar-brand'>Virtual Wallet</span>
 
             <ul className='nav__list'>
