@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { collaboratorType } from "../../features/collaboratorSlice";
 
-//TODO: cambiar la ruta por la real
-const putCollaboratorUrl = 'aqui va el endpoint de  postear colaboradores'
+
+const putCollaboratorUrl = 'https://virtual-wallet-back-api.herokuapp.com/api/update/collaborator'
 
 export const putCollaborator = createAsyncThunk('putCollaborator', async (collaborator: collaboratorType) => {
     const response = await fetch(putCollaboratorUrl, {
