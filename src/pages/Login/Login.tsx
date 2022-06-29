@@ -1,12 +1,17 @@
 import { signInWithEmailAndPassword, sendEmailVerification, User, browserLocalPersistence } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { adminEmail } from "../../App";
 import { logInInReducer } from "../../app/loggedInSlice";
 import { auth, firebaseConfig } from "../../firebaseConfig";
 import './Login.css';
+import { collaboratorType, selectCollaboratorStateTypeState, selectCollaboratorStateTypeStatus } from "../../features/collaboratorSlice";
+import { requestStatus } from "../../features/transaccionSlice";
+import { getAllCollaborators } from "../../actions/collaborators/getAllCollaborators";
+import { useAppDispatch } from "../../app/store";
+import { putCollaborator } from "../../actions/collaborators/putCollaborator";
 
 const Login = () => {
 
@@ -14,8 +19,11 @@ const Login = () => {
   const errorMsgClassNameOn = 'login__error-message-on';
   const errorMsgClassNameOff = 'login__error-message-off';
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  
+  const status = useSelector(selectCollaboratorStateTypeStatus());
+  const getCollaborators = useSelector(selectCollaboratorStateTypeState());
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,6 +31,9 @@ const Login = () => {
   const [errorMsgClassName, setErrorMsgClassName] = useState(errorMsgClassNameOff);
 
   useEffect(() => {
+    if (status === requestStatus.IDLE) {
+      dispatch(getAllCollaborators());
+    }
     // initializeApp(firebaseConfig);
     // auth.onAuthStateChanged((user) => {
     //   (currentUser = user)
@@ -43,6 +54,23 @@ const Login = () => {
       })
   }
 
+  const loginIfNotLogged = (currentUserState: collaboratorType) => {
+    if (currentUserState.logged) {
+      alert(`El usuario ${currentUserState.email} ya se encuentra logeado en otra sesión.`);
+    }else{
+      const updateCollaboratorlogged: collaboratorType = {
+        email: currentUserState.email,
+        name: currentUserState.name,
+        balance: currentUserState.balance,
+        contactsList: currentUserState.contactsList,
+        logged: true
+      }
+      dispatch(logInInReducer(currentUserState.email));
+      dispatch(putCollaborator(updateCollaboratorlogged));
+      navigate('/inicio-colab');
+    }
+  }
+
   const logInWithEmailAndPassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -52,18 +80,19 @@ const Login = () => {
           signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
               const currentUser = userCredential.user;
+              const currentUserState = getCollaborators.filter(collaborator => collaborator.email === currentUser.email)[0];
 
-              console.log(currentUser);
+              // console.log(currentUserState);
 
               if (currentUser.email === adminEmail) {
                 dispatch(logInInReducer(currentUser.email));
-
                 navigate('/inicio-admin');
-              } else {
-                if (currentUser.emailVerified) {
-                  dispatch(logInInReducer(currentUser.email));
 
-                  navigate('/inicio-colab');
+              } else {
+
+                if (currentUser.emailVerified) {
+                  loginIfNotLogged(currentUserState);
+                  
                 } else {
                   setErrorMsg('El correo electrónico aún no ha sido verificado. Por favor verifíquelo e intente de nuevo.');
                   setErrorMsgClassName(errorMsgClassNameOn);

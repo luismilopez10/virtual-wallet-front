@@ -65,7 +65,8 @@ const SignIn = () => {
                                     email: user.email,
                                     name: user.displayName,
                                     balance: 1050000,
-                                    contactsList: []
+                                    contactsList: [],
+                                    logged: false
                                 }
 
                                 setEmail('');
