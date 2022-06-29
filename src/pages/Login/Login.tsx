@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, User, browserLocalPersistence } from "firebase/auth";
+import { signInWithEmailAndPassword, sendEmailVerification, User, browserLocalPersistence } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
