@@ -16,7 +16,7 @@ type collaboratorType = {
     name: string | null,
     balance: number,
     contactsList:contactType[],
-    logged: boolean | undefined
+    logged: boolean
 }
 
 interface collaboratorStateType {
