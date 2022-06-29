@@ -1,27 +1,26 @@
 import React, { useEffect } from 'react'
-import { useAppDispatch } from '../../app/store'
+import { RootState, useAppDispatch } from '../../app/store'
 import { useSelector } from 'react-redux';
 import { requestStatus, selectTransaccionFetchError, selectTransaccionState, selectTransaccionStatus, transactionType } from "../../features/transaccionSlice";
-import { getAllTransactions } from '../../actions/transactions/getAllTransactions';
+import { getAllTransactionsIn } from '../../actions/transactions/getAllTransactionsIn';
+import { Link } from 'react-router-dom';
 
 
-const colaboradorIngresos: React.FunctionComponent = () => {
+const CollaboratorIn: React.FunctionComponent = () => {
 
     const dispatch = useAppDispatch();
+    const { user } = useSelector((state: RootState) => state.logged);
 
     useEffect(() => {
         if (status === requestStatus.IDLE) {
-            dispatch(getAllTransactions())
+            dispatch(getAllTransactionsIn(user))
         }
     }, [dispatch])
 
     const error = useSelector(selectTransaccionFetchError())
     const status = useSelector(selectTransaccionStatus())
     const getAllTransaccions = useSelector(selectTransaccionState())
-
-
-    //TODO: traer el correo de la persona cuya sesion esta activa para poder mapear sus datos
-    //TODO: agregar estilo a la cantidad de dinero para que sea verde pues son ingresos
+   
 
     return (<div>
         <table>
@@ -38,12 +37,15 @@ const colaboradorIngresos: React.FunctionComponent = () => {
                     <tr>
                         <td>{product.date}</td>
                         <td>{product.source}</td>
-                        <td>{product.amount}</td>
+                        <td style={{color: 'green'}}>+{product.amount}</td>
                     </tr>
                 </tbody>
             })}
         </table>
         <br />
+        <Link to='/inicio-colab'>
+            <button>Regresar</button>
+        </Link>
 
 
     </div>)
@@ -51,4 +53,4 @@ const colaboradorIngresos: React.FunctionComponent = () => {
 }
 
 
-export default colaboradorIngresos
+export default CollaboratorIn

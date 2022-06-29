@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react'
-import { useAppDispatch } from '../../app/store'
+import { RootState, useAppDispatch } from '../../app/store'
 import { useSelector } from 'react-redux';
 import { requestStatus, selectTransaccionFetchError, selectTransaccionState, selectTransaccionStatus, transactionType } from "../../features/transaccionSlice";
-import { getAllTransactions } from '../../actions/transactions/getAllTransactions';
+import { getAllTransactionsOut } from '../../actions/transactions/getAllTransactionsOut';
+import { Link } from 'react-router-dom';
 
 
-const colaboradorEgresos: React.FunctionComponent = () => {
+const CollaboratorOut: React.FunctionComponent = () => {
 
     const dispatch = useAppDispatch();
+    const { user } = useSelector((state: RootState) => state.logged);
 
     useEffect(() => {
         if (status === requestStatus.IDLE) {
-            dispatch(getAllTransactions())
+            dispatch(getAllTransactionsOut(user))
         }
     }, [dispatch])
 
@@ -20,7 +22,7 @@ const colaboradorEgresos: React.FunctionComponent = () => {
     const getAllTransaccions = useSelector(selectTransaccionState())
 
 
-    //TODO: traer el correo de la persona cuya sesion esta activa para poder mapear sus datos
+    
     //TODO: agregar estilo a la cantidad de dinero para que sea rojo pues son egresos
 
     return (<div>
@@ -38,12 +40,15 @@ const colaboradorEgresos: React.FunctionComponent = () => {
                     <tr>
                         <td>{product.date}</td>
                         <td>{product.receiver}</td>
-                        <td>{product.amount}</td>
+                        <td style={{ color: 'red' }}>-{product.amount}</td>
                     </tr>
                 </tbody>
             })}
         </table>
         <br />
+        <Link to='/inicio-colab'>
+            <button>Regresar</button>
+        </Link>
         
 
     </div>)
@@ -51,4 +56,4 @@ const colaboradorEgresos: React.FunctionComponent = () => {
 }
 
 
-export default colaboradorEgresos
+export default CollaboratorOut
