@@ -8,6 +8,9 @@ import PasswordReset from './pages/Login/PasswordReset';
 import CollaboratorHome from './pages/CollaboratorMenu/CollaboratorHome';
 import './App.css';
 import './Nav.css';
+import CollaboratorIn from './components/colaboradorHistorial/CollaboratorIn';
+import CollaboratorOut from './components/colaboradorHistorial/CollaboratorOut';
+import CollaboratorTransaction from './components/colaboradorFormulario/CollaboratorTransaction';
 
 export const adminEmail = 'juan.velez993@gmail.com';
 
@@ -42,7 +45,7 @@ function App() {
                 <Link to='/' className='nav__link'>Inicio</Link>
               </li>
               <li className='nav__item'>
-                <Link to='/' className='nav__link'>Transacciones</Link>
+                <Link to='/transaccion' className='nav__link'>Transacciones</Link>
               </li>
               <li className='nav__item'>
                 <Link to='/' className='nav__link' onClick={() => {logout()}}>Cerrar Sesión</Link>
@@ -58,6 +61,10 @@ function App() {
         <Route path="/resetpassword" element={<PasswordReset />} />
         <Route path="/inicio-admin" element={<></>} />
         <Route path="/inicio-colab" element={<CollaboratorHome/>} />
+        <Route path="/ingresos" element={<CollaboratorIn/>} />
+        <Route path="/egresos" element={<CollaboratorOut />} />
+        <Route path="/transaccion" element={<CollaboratorTransaction />} />
+
       </Routes>
     </BrowserRouter>
   )
