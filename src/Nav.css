@@ -28,6 +28,8 @@
     position: relative;
     width: 2rem;
     height: 2rem;
+    background: url('./src/assets/wallet-icon.png')
+    center no-repeat;
     background-size: cover;
     border-radius: 0px;
     z-index: 1;

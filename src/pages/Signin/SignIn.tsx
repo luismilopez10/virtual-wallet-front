@@ -64,7 +64,7 @@ const SignIn = () => {
                                 const newCollaborator: collaboratorType = {
                                     email: user.email,
                                     name: user.displayName,
-                                    balance: 0,
+                                    balance: 1050000,
                                     contactsList: []
                                 }
 

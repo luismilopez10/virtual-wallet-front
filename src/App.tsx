@@ -1,3 +1,4 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { logOutInReducer } from './app/loggedInSlice';
@@ -15,6 +16,7 @@ import CollaboratorTransaction from './components/colaboradorFormulario/Collabor
 export const adminEmail = 'juan.velez993@gmail.com';
 
 function App() {
+
 
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.logged);

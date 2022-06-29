@@ -10,7 +10,7 @@ import './Login.css';
 
 const Login = () => {
 
-  let currentUser: User | null = null;
+  // let currentUser: User | null = null;
   const errorMsgClassNameOn = 'login__error-message-on';
   const errorMsgClassNameOff = 'login__error-message-off';
 
@@ -22,13 +22,16 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [errorMsgClassName, setErrorMsgClassName] = useState(errorMsgClassNameOff);
 
-  // useEffect(() => {
-  //   initializeApp(firebaseConfig);
-  //   auth.onAuthStateChanged((user) => (currentUser = user));
-  //   dispatch(logInInReducer(currentUser?.email));
-  //   console.log(currentUser);
+  useEffect(() => {
+    // initializeApp(firebaseConfig);
+    // auth.onAuthStateChanged((user) => {
+    //   (currentUser = user)
+    //   console.log(user);      
+    // });
+    // dispatch(logInInReducer(currentUser?.email));
+    // console.log(currentUser);
     
-  // }, [dispatch]);
+  }, [dispatch]);
 
   function sendEmailVerif(currentUser: User) {
     sendEmailVerification(currentUser)
