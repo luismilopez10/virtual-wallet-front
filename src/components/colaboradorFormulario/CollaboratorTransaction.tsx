@@ -57,7 +57,7 @@ const CollaboratorTransaction: React.FunctionComponent = () => {
                             name:currentCollaborator?.name!,
                             balance: currentCollaborator?.balance!-amount,
                             contactsList:currentCollaborator?.contactsList!,
-                            logged:currentCollaborator?.logged
+                            logged:currentCollaborator?.logged!
                         }
 
                         const updatedReciever: collaboratorType = {
@@ -65,7 +65,7 @@ const CollaboratorTransaction: React.FunctionComponent = () => {
                             name: currentReciever.name,
                             balance: currentReciever.balance + amount,
                             contactsList: currentReciever.contactsList,
-                            logged:currentCollaborator?.logged
+                            logged:currentCollaborator?.logged!
                         }
 
                         dispatch(putCollaborator(updatedSource))
