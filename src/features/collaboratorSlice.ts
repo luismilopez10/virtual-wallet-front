@@ -12,8 +12,8 @@ type contactType={
 }
 
 type collaboratorType = {
-    email: string ,
-    name: string ,
+    email: string | null,
+    name: string | null,
     balance: number,
     contactsList:contactType[]    
     

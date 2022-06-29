@@ -3,6 +3,9 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../../firebaseConfig";
 import './SignIn.css';
+import { postCollaborator } from '../../actions/collaborators/postCollaborator';
+import { collaboratorType } from '../../features/collaboratorSlice';
+import { useAppDispatch } from '../../app/store';
 
 const SignIn = () => {
 
@@ -14,6 +17,7 @@ const SignIn = () => {
     const emailPattern = "([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])";
 
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -56,11 +60,21 @@ const SignIn = () => {
     
                         sendEmailVerification(user)
                             .then(() => {
+
+                                const newCollaborator: collaboratorType = {
+                                    email: user.email,
+                                    name: user.displayName,
+                                    balance: 0,
+                                    contactsList: []
+                                }
+
                                 setEmail('');
                                 setPassword('');
                                 setPasswordConfirm('');
 
                                 alert('Registro exitoso. Por favor revise su bandeja de entrada para verificar su correo electrónico. Verifique su carpeta de spam o no deseados.');
+
+                                dispatch(postCollaborator(newCollaborator));
             
                                 navigate('/login');
                             })

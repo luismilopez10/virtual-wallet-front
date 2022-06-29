@@ -38,7 +38,7 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
 
-          // console.log(user);
+          console.log(user);
 
           if (user.email === adminEmail) {
             dispatch(logInInReducer(user.email));
