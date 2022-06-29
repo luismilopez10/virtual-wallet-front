@@ -13,7 +13,7 @@ const CollaboratorHome = () => {
     const { user } = useSelector((state: RootState) => state.logged);
 
     return (<div>
-        <h1>Hola {user}</h1>
+        
         <CollaboratorMenu />
         <div>
             <Link to='/ingresos'>

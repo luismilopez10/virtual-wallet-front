@@ -1,18 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { RootState } from '../../app/store';
+import { getAllCollaborators } from '../../actions/collaborators/getAllCollaborators';
+import { RootState, useAppDispatch } from '../../app/store';
+import { selectCollaboratorStateTypeFetchError, selectCollaboratorStateTypeState, selectCollaboratorStateTypeStatus } from '../../features/collaboratorSlice';
+import { requestStatus } from '../../features/transaccionSlice';
 
-//TODO: validar el usuario con sesion activa y traer sus datos de la body
+
 //TODO: mapear los datos de sesion y agregar los historiales desde la pag
 
 const collaboratorMenu = () => {
   const { user } = useSelector((state: RootState) => state.logged);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (status === requestStatus.IDLE) {
+      dispatch(getAllCollaborators())
+    }
+  }, [dispatch])
+
+  const error = useSelector(selectCollaboratorStateTypeFetchError())
+  const status = useSelector(selectCollaboratorStateTypeStatus())
+  const getCollaborators = useSelector(selectCollaboratorStateTypeState())
+  const currentCollaborator = getCollaborators.find((collaborator) => collaborator.email === user)
+
   return (
     <div>
-      <h1>Hola X</h1>
+      <h1>Hola {currentCollaborator?.email}</h1>
       <div >
-        Tu saldo es: Y
+        <h1>Tu saldo es: ${currentCollaborator?.balance}</h1>
       </div>
       <br />
   
