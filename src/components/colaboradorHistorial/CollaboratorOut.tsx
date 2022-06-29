@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { RootState, useAppDispatch } from '../../app/store'
 import { useSelector } from 'react-redux';
 import { requestStatus, selectTransaccionFetchError, selectTransaccionState, selectTransaccionStatus, transactionType } from "../../features/transaccionSlice";
-import { getAllTransactionsOut } from '../../actions/transactions/getAllTransactionsOut';
+
 import { Link, useNavigate } from 'react-router-dom';
+import { getAllTransactions } from '../../actions/transactions/getAllTransactions';
 
 
 const CollaboratorOut: React.FunctionComponent = () => {
@@ -17,19 +18,17 @@ const CollaboratorOut: React.FunctionComponent = () => {
           navigate('/login');
         }
         if (status === requestStatus.IDLE) {
-            dispatch(getAllTransactionsOut(user))
+            dispatch(getAllTransactions())
         }
     }, [dispatch])
 
     const error = useSelector(selectTransaccionFetchError())
     const status = useSelector(selectTransaccionStatus())
     const getAllTransaccions = useSelector(selectTransaccionState())
+    const collaboratorTransactionsOut = getAllTransaccions.filter((transaction) => transaction.source === user)
 
 
-    
-    //TODO: agregar estilo a la cantidad de dinero para que sea rojo pues son egresos
-
-    return (<div>
+     return (<div>
         <table>
             <thead>
                 <tr>
@@ -39,7 +38,7 @@ const CollaboratorOut: React.FunctionComponent = () => {
                 </tr>
             </thead>
 
-            {!error && getAllTransaccions.map((product: transactionType) => {
+             {!error && collaboratorTransactionsOut.map((product: transactionType) => {
                 return <tbody key={product.id}>
                     <tr>
                         <td>{product.date}</td>

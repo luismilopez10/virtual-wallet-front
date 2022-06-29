@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from '../app/store'
-import { getAllTransactionsIn } from '../actions/transactions/getAllTransactionsIn'
+import { getAllTransactions } from '../actions/transactions/getAllTransactions'
 import { postTransaction } from "../actions/transactions/postTransaction";
 
 
@@ -42,14 +42,14 @@ const transactionSlice = createSlice({
     },
     extraReducers: (builder) => {
         //Traer las transacciones
-        builder.addCase(getAllTransactionsIn.pending, (state, action) => {
+        builder.addCase(getAllTransactions.pending, (state, action) => {
             state.status = requestStatus.PENDING
         })
-        builder.addCase(getAllTransactionsIn.fulfilled, (state, action) => {
+        builder.addCase(getAllTransactions.fulfilled, (state, action) => {
             state.status = requestStatus.COMPLETED
             state.transactions = action.payload
         })
-        builder.addCase(getAllTransactionsIn.rejected, (state, action) => {
+        builder.addCase(getAllTransactions.rejected, (state, action) => {
             state.status = requestStatus.FAILED
             state.error = "Algo salio mal buscando las transacciones"
             state.transactions = []
