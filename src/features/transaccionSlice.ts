@@ -14,7 +14,7 @@ export enum requestStatus {
 type transactionType = {
     id:string
     source: string,
-    receiver: string,
+    receiver: string | null,
     amount: number,
     date: string
     
