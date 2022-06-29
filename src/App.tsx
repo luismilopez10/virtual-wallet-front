@@ -6,6 +6,7 @@ import Login from './pages/Login/Login';
 import SignIn from './pages/Signin/SignIn';
 import './App.css';
 import './Nav.css';
+import CollaboratorPayment from './components/CollaboratorPayment/CollaboratorPayment';
 
 function App() {
 
@@ -51,7 +52,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/inicio-admin" element={<></>} />
+        <Route path="/inicio-admin" element={<CollaboratorPayment/>} />
         <Route path="/inicio-colab" element={<></>} />
       </Routes>
     </BrowserRouter>

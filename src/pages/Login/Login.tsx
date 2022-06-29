@@ -48,7 +48,7 @@ const Login = () => {
               navigate('/inicio-admin');
             }else{
               //  TODO: cambiar el navigate a la dirección correcta para Colaborador
-              navigate('/inicio-colab');
+              navigate('/inicio-admin');
             }
 
           } else {
