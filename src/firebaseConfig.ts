@@ -1,7 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyCSFY7bCZ3rnkBx-w0VGaFLanpvR72Tn4g",
   authDomain: "virtual-wallet-95a8f.firebaseapp.com",
   projectId: "virtual-wallet-95a8f",

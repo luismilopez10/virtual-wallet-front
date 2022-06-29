@@ -1,14 +1,16 @@
-import { signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, User } from "firebase/auth";
-import React, { useState } from 'react';
+import { signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, User, browserLocalPersistence } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { adminEmail } from "../../App";
 import { logInInReducer } from "../../app/loggedInSlice";
-import { auth } from "../../firebaseConfig";
+import { auth, firebaseConfig } from "../../firebaseConfig";
 import './Login.css';
 
 const Login = () => {
 
+  let currentUser: User | null = null;
   const errorMsgClassNameOn = 'login__error-message-on';
   const errorMsgClassNameOff = 'login__error-message-off';
 
@@ -19,6 +21,14 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [errorMsgClassName, setErrorMsgClassName] = useState(errorMsgClassNameOff);
+
+  // useEffect(() => {
+  //   initializeApp(firebaseConfig);
+  //   auth.onAuthStateChanged((user) => (currentUser = user));
+  //   dispatch(logInInReducer(currentUser?.email));
+  //   console.log(currentUser);
+    
+  // }, [dispatch]);
 
   function sendEmailVerif(currentUser: User) {
     sendEmailVerification(currentUser)
@@ -33,62 +43,65 @@ const Login = () => {
   const logInWithEmailAndPassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (email && password) {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
+    // auth.setPersistence(browserLocalPersistence)
+      // .then(() => {
+        if (email && password) {
+          signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              const currentUser = userCredential.user;
 
-          console.log(user);
+              console.log(currentUser);
 
-          if (user.email === adminEmail) {
-            dispatch(logInInReducer(user.email));
-            //  TODO: cambiar el navigate a la dirección correcta para Admin
-            navigate('/inicio-admin');
-          } else {
-            if (user.emailVerified) {
-              dispatch(logInInReducer(user.email));
-              //  TODO: cambiar el navigate a la dirección correcta para Colaborador
-              navigate('/inicio-colab');  
-            } else {
-              setErrorMsg('El correo electrónico aún no ha sido verificado. Por favor verifíquelo e intente de nuevo.');
+              if (currentUser.email === adminEmail) {
+                dispatch(logInInReducer(currentUser.email));
+
+                navigate('/inicio-admin');
+              } else {
+                if (currentUser.emailVerified) {
+                  dispatch(logInInReducer(currentUser.email));
+
+                  navigate('/inicio-colab');
+                } else {
+                  setErrorMsg('El correo electrónico aún no ha sido verificado. Por favor verifíquelo e intente de nuevo.');
+                  setErrorMsgClassName(errorMsgClassNameOn);
+
+                  sendEmailVerif(currentUser);
+                }
+              }
+
+              // console.log('**** user credentials ****');
+              // console.log(userCredential);
+              // console.log('**** user ***');
+              // console.log(user);
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+
+              console.log('*** Log in error ***');
+              console.log(errorMessage);
+
+              switch (errorCode) {
+                case "auth/user-not-found":
+                  setErrorMsg("El correo ingresado no se encuentra registrado.");
+                  setPassword('');
+                  break;
+
+                case "auth/wrong-password":
+                  setErrorMsg("Contraseña incorrecta. Por favor inténtelo de nuevo.");
+                  setPassword('');
+                  break;
+
+                case "auth/too-many-requests":
+                  setErrorMsg("El acceso a esta cuenta se ha inhabilitado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restaurarlo inmediatamente restableciendo su contraseña o puede volver a intentarlo más tarde.");
+                  setPassword('');
+                  break;
+              }
+
               setErrorMsgClassName(errorMsgClassNameOn);
-  
-              sendEmailVerif(user);
-            }
-          }
-
-          // console.log('**** user credentials ****');
-          // console.log(userCredential);
-          // console.log('**** user ***');
-          // console.log(user);
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-
-          console.log('*** Log in error ***');
-          console.log(errorMessage);
-
-          switch (errorCode) {
-            case "auth/user-not-found":
-              setErrorMsg("El correo ingresado no se encuentra registrado.");
-              setPassword('');
-              break;
-
-            case "auth/wrong-password":
-              setErrorMsg("Contraseña incorrecta. Por favor inténtelo de nuevo.");
-              setPassword('');
-              break;
-
-            case "auth/too-many-requests":
-              setErrorMsg("El acceso a esta cuenta se ha inhabilitado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restaurarlo inmediatamente restableciendo su contraseña o puede volver a intentarlo más tarde.");
-              setPassword('');
-              break;
-          }
-
-          setErrorMsgClassName(errorMsgClassNameOn);
-        });
-    }
+            });
+        }
+      // })
   }
 
   const signIn = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {

@@ -99,16 +99,3 @@
 .login__error-message-off {
   display: none;
 }
-
-/* #### Re Send Verification Email Message #### */
-.login__re-send-email-message-on {
-  margin-top: 1rem;
-  text-align: left;
-  font-size: 0.75rem;
-  display: inline-block;
-  color: #51BBFE;
-}
-
-.login__re-send-email-message-off {
-  display: none;
-}

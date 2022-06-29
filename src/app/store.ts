@@ -6,7 +6,7 @@ import collaboratorReducer from "../features/collaboratorSlice";
 
 const store = configureStore({
     reducer: {
-        logged: loggedInReducer,        
+        logged: loggedInReducer,
         transacciones:transaccionReducer,
         collaborator:collaboratorReducer
     },
