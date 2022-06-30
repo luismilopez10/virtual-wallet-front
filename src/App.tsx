@@ -9,6 +9,7 @@ import PasswordReset from './pages/Login/PasswordReset';
 import CollaboratorHome from './pages/CollaboratorMenu/CollaboratorHome';
 import './App.css';
 import './Nav.css';
+import CollaboratorPayment from './components/CollaboratorPayment/CollaboratorPayment';
 import CollaboratorIn from './components/colaboradorHistorial/CollaboratorIn';
 import CollaboratorOut from './components/colaboradorHistorial/CollaboratorOut';
 import CollaboratorTransaction from './components/colaboradorFormulario/CollaboratorTransaction';
@@ -88,7 +89,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/resetpassword" element={<PasswordReset />} />
-        <Route path="/inicio-admin" element={<></>} />
+        <Route path="/inicio-admin" element={<CollaboratorPayment/>} />
         <Route path="/inicio-colab" element={<CollaboratorHome/>} />
         <Route path="/ingresos" element={<CollaboratorIn/>} />
         <Route path="/egresos" element={<CollaboratorOut />} />
