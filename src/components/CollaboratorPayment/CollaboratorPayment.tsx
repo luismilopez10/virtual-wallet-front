@@ -13,7 +13,7 @@ function EmployeePayment() {
 
     const [collaborators, setCollaborators] = useState([{}])
     const [collaboratorsToPay, setCollaboratorsToPay] = useState([{}])
-    const [payments, setPayments] = useState<Row[]>([])
+    const [payments, setPayments]: any = useState<Row[]>([])
     const _export = useRef<ExcelExport | null>(null)
     const inputFile = useRef(null) as any
     const [isDownload, setIsDownload] = useState(false)
@@ -159,7 +159,7 @@ function EmployeePayment() {
                         </tr>
                     </thead>
                     <tbody>
-                        {payments.map(payment => {
+                        {payments.map((payment: { toString: () => string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }[]) => {
                             return <tr>
                                 <td>{payment[0] ? payment[0].toString() : 'Null'}</td>
                                 <td>{payment[1] ? payment[1].toString() : 'Null'}</td>
