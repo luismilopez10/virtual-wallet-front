@@ -10,7 +10,7 @@
   width: 350px;
   padding: 25px 30px;
   border-radius: 5px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.45);
 }
 
 .signin__container form .title {
@@ -69,7 +69,7 @@
 }
 
 .signin__container .input-box input[type="submit"] {
-  background: linear-gradient(to right, #4590fb 0%, #4590fb 100%);
+  background: linear-gradient(to right, #51BBFE 0%, #51BBFE 100%);
   font-size: 17px;
   color: #fff;
   border-radius: 5px;
@@ -78,8 +78,8 @@
 }
 
 .signin__container .input-box input[type="submit"]:hover {
-  letter-spacing: 1px;
-  background: linear-gradient(to left, #4590fb 0%, #4590fb 100%);
+  letter-spacing: 0.2px;
+  background: linear-gradient(to left, #51BBFE 0%, #51BBFE 100%);
 }
 
 .signin__container .option {
@@ -92,10 +92,25 @@
 .signin__error-message-on {
   margin-top: 1rem;
   text-align: left;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   display: inline-block;
   color: rgb(220, 0, 0);
 }
 .signin__error-message-off {
+  display: none;
+}
+
+
+
+/* #### Password Error Message #### */
+.password_requisites_message_on h3 {
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+.password_requisites_message_on li {
+  font-size: 0.70rem;
+  padding-left: 1rem;
+}
+.password_requisites_message_off {
   display: none;
 }

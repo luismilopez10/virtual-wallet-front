@@ -1,39 +1,48 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { saveAs } from 'file-saver'
-import readXlsxFile from 'read-excel-file'
+import readXlsxFile, { Row } from 'read-excel-file'
 import { ExcelExport, ExcelExportColumn } from '@progress/kendo-react-excel-export';
-import { fetchAllCollaborators } from '../../actions/getAllCollaborators';
+import { getAllCollaborators } from '../../actions/collaborators/getAllCollaborators';
+import { useAppDispatch } from '../../app/store';
+import { collaboratorStateType, collaboratorType, selectCollaboratorStateTypeState, selectCollaboratorStateTypeStatus } from '../../features/collaboratorSlice';
+import { useSelector } from 'react-redux';
+import { putCollaborator } from '../../actions/collaborators/putCollaborator';
+import { requestStatus } from '../../features/transaccionSlice';
 
 function EmployeePayment() {
 
     const [collaborators, setCollaborators] = useState([{}])
+    const [payments, setPayments] = useState<Row[]>([])
     const _export = useRef<ExcelExport | null>(null)
-    const inputFile = useRef(null)
+    const inputFile = useRef(null) as any
     const [isDownload, setIsDownload] = useState(false)
     const [fileSelected, setFileSelected] = useState(false)
+    const dispatch = useAppDispatch()
 
-
+    const getCollaborators = useSelector(selectCollaboratorStateTypeState())
+    const status = useSelector(selectCollaboratorStateTypeStatus())
 
     useEffect(() => {
-        fetchAllCollaborators().then(
-            collaborators => {
-                console.log(collaborators);
-                setCollaborators(collaborators)
-            }
-        )
-    }, [])
+        if (status === requestStatus.IDLE) {
+            dispatch(getAllCollaborators())
+        }
+    }, [dispatch])
 
     const createExcel = () => {
         if (_export.current !== null) {
             _export.current.save();
             setIsDownload(true)
+            setCollaborators(getCollaborators)
+            console.log(getCollaborators);
+
         }
     }
 
     const readExcel = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files![0]
         readXlsxFile(file).then((rows) => {
-            setCollaborators(rows)
+            const paymentContent = rows.slice(1, rows.length)
+            console.log(paymentContent);
+            setPayments(paymentContent)
             setFileSelected(true)
         })
     }
@@ -47,6 +56,37 @@ function EmployeePayment() {
     }
 
     const payToCollaborators = () => {
+        let flag = false
+        payments.forEach(payment => {
+            let collaboratorFound: any = getCollaborators.find((collaborator: collaboratorType | any) => collaborator.email === payment[0])
+            if (collaboratorFound) {
+                if (payment[1] >= 0) {
+                    let collaboratorToUpdate: collaboratorType = {
+                        email: collaboratorFound.email,
+                        name: collaboratorFound.name,
+                        balance: collaboratorFound.balance + payment[1],
+                        contactsList: collaboratorFound.contactsList,
+                        logged: collaboratorFound.logged
+                    }
+                    // collaboratorToUpdate.balance += payment[1]
+                    console.log("Collaborator found");
+                    console.log(collaboratorFound);
+                    console.log("Collaborator to update");
+                    console.log(collaboratorToUpdate);
+                    dispatch(putCollaborator(collaboratorToUpdate));
+                    setPayments([])
+                } else {
+                    alert(`El pago para ${payment[0]} contiene un valor negativo: ${payment[1]} , cambiarlo e intentar de nuevo`)
+                }
+            }else{
+                alert(`El correo ${payment[0]} no existe en la base de datos`)
+            }
+        })
+    }
+
+
+
+    const updatePage = () => {
 
     }
 
@@ -60,9 +100,8 @@ function EmployeePayment() {
             </div>
             <div className='grid grid-rows-4 grid-flow-col gap-y-10 justify-center '>
                 <div>
-                    <ExcelExport data={collaborators} ref={_export}>
+                    <ExcelExport data={getCollaborators} ref={_export}>
                         <ExcelExportColumn field='email' title='Correo' width={200} />
-                        <ExcelExportColumn field='name' title='Nombre' width={200} />
                         <ExcelExportColumn field='pago' title='pago' width={200} />
                     </ExcelExport>
                 </div>
@@ -88,6 +127,22 @@ function EmployeePayment() {
                         className='w-64'
                     />
                 </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Correo</td>
+                            <td>Pago</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {payments.map(payment => {
+                            return <tr>
+                                <td>{payment[0].toString()}</td>
+                                <td>{payment[1].toString()}</td>
+                            </tr>
+                        })}
+                    </tbody>
+                </table>
                 <div className='flex space-x-4'>
                     <button onClick={deleteFile}
                         disabled={!fileSelected}
@@ -101,8 +156,7 @@ function EmployeePayment() {
                         bg-red-500
                         '
                     >Quitar archivo</button>
-                    <button onClick={deleteFile}
-                        disabled={!fileSelected}
+                    <button onClick={payToCollaborators}
                         className='
                         border
                         border-black 

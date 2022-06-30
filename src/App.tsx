@@ -1,21 +1,57 @@
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { logOutInReducer } from './app/loggedInSlice';
-import { RootState } from './app/store';
+import { RootState, useAppDispatch } from './app/store';
 import Login from './pages/Login/Login';
 import SignIn from './pages/Signin/SignIn';
+import PasswordReset from './pages/Login/PasswordReset';
+import CollaboratorHome from './pages/CollaboratorMenu/CollaboratorHome';
 import './App.css';
 import './Nav.css';
 import CollaboratorPayment from './components/CollaboratorPayment/CollaboratorPayment';
+import CollaboratorIn from './components/colaboradorHistorial/CollaboratorIn';
+import CollaboratorOut from './components/colaboradorHistorial/CollaboratorOut';
+import CollaboratorTransaction from './components/colaboradorFormulario/CollaboratorTransaction';
+import { getAllCollaborators } from './actions/collaborators/getAllCollaborators';
+import { requestStatus } from './features/transaccionSlice';
+import { collaboratorType, selectCollaboratorStateTypeState, selectCollaboratorStateTypeStatus } from './features/collaboratorSlice';
+import { putCollaborator } from './actions/collaborators/putCollaborator';
+
+export const adminEmail = 'juan.velez993@gmail.com';
 
 function App() {
 
-  const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.logged);
+  
+  const dispatch = useAppDispatch();
 
-  const goHome = user !== null ? '/inicio' : '/login';
+  const status = useSelector(selectCollaboratorStateTypeStatus());
+  const getCollaborators = useSelector(selectCollaboratorStateTypeState());
+
+  useEffect(() => {
+    if (status === requestStatus.IDLE) {
+      dispatch(getAllCollaborators());
+    }
+  }, [dispatch]);
+
+  const goHome = user !== null ? (user === adminEmail ? '/inicio-admin' : '/inicio-colab') : '/login';
 
   const logout = () => {
+    if (user !== null) {
+      const currentUserState = getCollaborators.filter(collaborator => collaborator.email === user)[0];
+
+      const updateCollaboratorlogged: collaboratorType = {
+        email: currentUserState.email,
+        name: currentUserState.name,
+        balance: currentUserState.balance,
+        contactsList: currentUserState.contactsList,
+        logged: false
+      }
+      
+      dispatch(putCollaborator(updateCollaboratorlogged));
+    }
+
     dispatch(logOutInReducer());
   }
 
@@ -23,26 +59,26 @@ function App() {
     <BrowserRouter>
       {user === null ?
         <header>
-        <nav className='nav__container'>
-            <Link to={goHome} className="nav__logo"></Link>
-            <span className=''>Virtual Wallet</span>
+        <nav className='nav nav__container'>
+            <Link to={goHome}><img className="nav__logo" src='https://cdn-icons-png.flaticon.com/512/2722/2722120.png'></img></Link>
+            <span className='navbar-brand'>Virtual Wallet</span>
           </nav>
         </header>
         :
         <header>
-          <nav className='nav__container'>
-            <Link to={goHome} className='nav__logo'></Link>
-            <span className=''>Virtual Wallet</span>
+          <nav className='nav nav__container'>
+            <Link to={goHome}><img className="nav__logo" src='https://cdn-icons-png.flaticon.com/512/2722/2722120.png'></img></Link>
+            <span className='navbar-brand'>Virtual Wallet</span>
 
-            <ul className=''>
-              <li className=''>
-                <Link to='/' className=''>Inicio</Link>
+            <ul className='nav__list'>
+              <li className='nav__item'>
+                <Link to='/' className='nav__link'>Inicio</Link>
               </li>
-              <li className=''>
-                <Link to='/' className=''>Transacciones</Link>
+              <li className='nav__item'>
+                <Link to='/transaccion' className='nav__link'>Transacciones</Link>
               </li>
-              <li className=''>
-                <Link to='/' className='' onClick={() => {logout()}}>Cerrar Sesión</Link>
+              <li className='nav__item'>
+                <Link to='/' className='nav__link' onClick={() => {logout()}}>Cerrar Sesión</Link>
               </li>
             </ul>
           </nav>
@@ -52,8 +88,13 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/resetpassword" element={<PasswordReset />} />
         <Route path="/inicio-admin" element={<CollaboratorPayment/>} />
-        <Route path="/inicio-colab" element={<></>} />
+        <Route path="/inicio-colab" element={<CollaboratorHome/>} />
+        <Route path="/ingresos" element={<CollaboratorIn/>} />
+        <Route path="/egresos" element={<CollaboratorOut />} />
+        <Route path="/transaccion" element={<CollaboratorTransaction />} />
+
       </Routes>
     </BrowserRouter>
   )
