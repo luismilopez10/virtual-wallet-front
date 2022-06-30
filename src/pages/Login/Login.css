@@ -83,6 +83,8 @@
 }
 
 .login__container .option a {
+  color: blue;
+  text-decoration: underline;
   font-size: 0.75rem;
   text-align: center;
 }
