@@ -72,13 +72,13 @@ function App() {
 
             <ul className='nav__list'>
               <li className='nav__item'>
-                <Link to='/' className='nav__link'>Inicio</Link>
+                <Link to={goHome} className='nav__link'>Inicio</Link>
               </li>
               <li className='nav__item'>
                 <Link to='/transaccion' className='nav__link'>Transacciones</Link>
               </li>
               <li className='nav__item'>
-                <Link to='/' className='nav__link' onClick={() => {logout()}}>Cerrar Sesión</Link>
+                <Link to='/login' className='nav__link' onClick={() => {logout()}}>Cerrar Sesión</Link>
               </li>
             </ul>
           </nav>
