@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { RootState, useAppDispatch } from '../../app/store'
 import { useSelector } from 'react-redux';
 import { requestStatus, selectTransaccionFetchError, selectTransaccionState, selectTransaccionStatus, transactionType } from "../../features/transaccionSlice";
-import { getAllTransactionsIn } from '../../actions/transactions/getAllTransactionsIn';
+import { getAllTransactions } from '../../actions/transactions/getAllTransactions';
 import { Link, useNavigate } from 'react-router-dom';
+
 
 
 const CollaboratorIn: React.FunctionComponent = () => {
@@ -17,13 +18,14 @@ const CollaboratorIn: React.FunctionComponent = () => {
           navigate('/login');
         }
         if (status === requestStatus.IDLE) {
-            dispatch(getAllTransactionsIn(user))
+            dispatch(getAllTransactions())
         }
     }, [dispatch])
 
     const error = useSelector(selectTransaccionFetchError())
     const status = useSelector(selectTransaccionStatus())
-    const getAllTransaccions = useSelector(selectTransaccionState())
+    const getAllTransacions = useSelector(selectTransaccionState())
+    const collaboratorTransactionsIn = getAllTransacions.filter((transaction) => transaction.receiver === user)
    
 
     return (<div>
@@ -36,7 +38,7 @@ const CollaboratorIn: React.FunctionComponent = () => {
                 </tr>
             </thead>
 
-            {!error && getAllTransaccions.map((product: transactionType) => {
+            {!error && collaboratorTransactionsIn.map((product: transactionType) => {
                 return <tbody key={product.id}>
                     <tr>
                         <td>{product.date}</td>
