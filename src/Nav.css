@@ -1,5 +1,5 @@
 .nav__container {
-    height: 43px;
+    height: 45px;
     padding: 5px;
     width: 100%;
     margin-inline: auto;
@@ -26,7 +26,7 @@
 }
 
 .nav__logo {
-    padding-top: 6px;
+    padding: 3px 0;
     position: relative;
     width: 2rem;
     height: 2.4rem;

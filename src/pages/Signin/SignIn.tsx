@@ -133,7 +133,7 @@ const SignIn = () => {
                         <h3>La contraseña debe contener:</h3>
                         <li>Mínimo 8 caracteres alfanuméricos</li>
                         <li>Al menos una mayúscula</li>
-                        <li>Al menos un caracteres especial</li>
+                        <li>Al menos un caracter especial</li>
                     </div>
                     <span className={errorMsgClassName}>{errorMsg}</span>
                     <div className="input-box button">
