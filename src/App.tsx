@@ -59,14 +59,14 @@ function App() {
       {user === null ?
         <header>
         <nav className='nav nav__container'>
-            <Link to={goHome}><i className="nav__logo" ></i></Link>
+            <Link to={goHome}><img className="nav__logo" src='https://cdn-icons-png.flaticon.com/512/2722/2722120.png'></img></Link>
             <span className='navbar-brand'>Virtual Wallet</span>
           </nav>
         </header>
         :
         <header>
           <nav className='nav nav__container'>
-            <Link to={goHome}><i className="nav__logo" ></i></Link>
+            <Link to={goHome}><img className="nav__logo" src='https://cdn-icons-png.flaticon.com/512/2722/2722120.png'></img></Link>
             <span className='navbar-brand'>Virtual Wallet</span>
 
             <ul className='nav__list'>

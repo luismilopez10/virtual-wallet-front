@@ -26,13 +26,10 @@
 }
 
 .nav__logo {
-    padding-top: 5px;
-    padding-left: 30px;
+    padding-top: 6px;
     position: relative;
     width: 2rem;
-    height: 2rem;
-    background: url('./src/assets/wallet-icon.png')
-    center no-repeat;
+    height: 2.4rem;
     background-size: cover;
     border-radius: 0px;
     z-index: 1;
