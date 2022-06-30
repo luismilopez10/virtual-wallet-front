@@ -39,7 +39,7 @@ function EmployeePayment() {
 
     const readExcel = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files![0]
-        readXlsxFile(file).then((rows) => {
+        readXlsxFile(file).then((rows: any) => {
             const paymentContent = rows.slice(1, rows.length)
             console.log(paymentContent);
             setPayments(paymentContent)
