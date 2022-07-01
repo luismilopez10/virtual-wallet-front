@@ -6,6 +6,8 @@ import './SignIn.css';
 import { postCollaborator } from '../../actions/collaborators/postCollaborator';
 import { collaboratorType } from '../../features/collaboratorSlice';
 import { useAppDispatch } from '../../app/store';
+import { AiOutlineMail } from 'react-icons/ai';
+import { RiLockPasswordLine } from 'react-icons/ri';
 
 const SignIn = () => {
 
@@ -117,16 +119,25 @@ const SignIn = () => {
                 <form autoComplete="on" onSubmit={(e) => signInForm(e)}>
                     <div className="title">Registrarse</div>
                     <div className="input-box underline">
-                        <input type="text" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                        <div className="underline"></div>
+                        <div>
+                            <AiOutlineMail />
+                            <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                            <div className="underline"></div>
+                        </div>
                     </div>
                     <div className="input-box">
-                        <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                        <div className="underline"></div>
+                        <div>
+                            <RiLockPasswordLine />
+                            <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                            <div className="underline"></div>
+                        </div>
                     </div>
                     <div className="input-box">
-                        <input type="password" placeholder="Confirmar contraseña" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} required />
-                        <div className="underline"></div>
+                        <div>
+                            <RiLockPasswordLine />
+                            <input type="password" placeholder="Confirmar contraseña" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} required />
+                            <div className="underline"></div>
+                        </div>
                     </div>
                     <br />
                     <div className={passwordRequisitesClassName}>

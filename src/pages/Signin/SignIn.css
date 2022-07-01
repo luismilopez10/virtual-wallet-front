@@ -10,7 +10,7 @@
   width: 350px;
   padding: 25px 30px;
   border-radius: 5px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.45);
+  box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.6);
 }
 
 .signin__container form .title {
