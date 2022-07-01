@@ -29,13 +29,14 @@ const CollaboratorIn: React.FunctionComponent = () => {
     const collaboratorTransactionsIn = getAllTransacions.filter((transaction) => transaction.receiver === user)
    
 
-    return (<div>
-        <table>
+    return (<div className='flex flex-col space-y-12'>
+        <br/>
+        <table className='table-fixed border-collapse border border-black border-separate border-spacing-2' style={{ backgroundColor: 'white' }}>
             <thead>
                 <tr>
-                    <td>Fecha:</td>
-                    <td>Origen:</td>
-                    <td>Cantidad:</td>
+                    <td className='border-collapse border border-black' style={{ backgroundColor: '#0e3b43', color: 'white' }}>Fecha:</td>
+                    <td className='border-collapse border border-black' style={{ backgroundColor: '#0e3b43', color: 'white' }}>Origen:</td>
+                    <td className='border-collapse border border-black' style={{ backgroundColor: '#0e3b43', color: 'white' }}>Cantidad:</td>
                 </tr>
             </thead>
 
@@ -50,9 +51,12 @@ const CollaboratorIn: React.FunctionComponent = () => {
             })}
         </table>
         <br />
-        <Link to='/inicio-colab'>
-            <button>Regresar</button>
-        </Link>
+        <div className='flex space-x-4 justify-center'>
+            <Link to='/inicio-colab'>
+                <button>Regresar</button>
+            </Link>
+        </div>
+        
 
 
     </div>)
