@@ -65,7 +65,7 @@ const CollaboratorTransaction: React.FunctionComponent = () => {
                             name: currentReciever.name,
                             balance: currentReciever.balance + amount,
                             contactsList: currentReciever.contactsList,
-                            logged:currentCollaborator?.logged!
+                            logged:currentReciever.logged
                         }
 
                         dispatch(putCollaborator(updatedSource))

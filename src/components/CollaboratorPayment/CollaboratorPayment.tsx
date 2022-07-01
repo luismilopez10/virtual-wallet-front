@@ -43,7 +43,7 @@ function EmployeePayment() {
 
     const readExcel = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files![0]
-        readXlsxFile(file).then((rows) => {
+        readXlsxFile(file).then((rows: any) => {
             const paymentContent = rows.slice(1, rows.length)
             console.log(paymentContent);
             setPayments(paymentContent)
@@ -147,7 +147,7 @@ function EmployeePayment() {
                         </tr>
                     </thead>
                     <tbody>
-                        {payments.map(payment => {
+                        {payments.map((payment: { toString: () => string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }[]) => {
                             return <tr>
                                 <td>{payment[0] ? payment[0].toString() : 'null'}</td>
                                 <td>{payment[1] ? payment[1].toString() : 'null'}</td>
