@@ -19,7 +19,8 @@ const CollaboratorTransaction: React.FunctionComponent = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (user === null) {
+        const localStorageUser = localStorage.getItem("localStorageUser"); 
+        if (user === null && localStorageUser === null) {
             navigate('/login');
         } 
         if (status === requestStatus.IDLE) {

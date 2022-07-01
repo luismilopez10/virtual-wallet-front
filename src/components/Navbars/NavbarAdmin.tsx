@@ -31,6 +31,7 @@ const NavbarAdmin = (props: { user: string | null; }) => {
         }
 
         dispatch(logOutInReducer());
+        localStorage.removeItem("localStorageUser");
     }
 
     return (

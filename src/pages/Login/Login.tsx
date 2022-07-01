@@ -94,7 +94,7 @@ const Login = () => {
 
                 if (currentUser.emailVerified) {
                   loginIfNotLogged(currentUserState);
-                  
+                  localStorage.setItem("localStorageUser", currentUser.email!);
                 } else {
                   setErrorMsg('El correo electrónico aún no ha sido verificado. Por favor verifíquelo e intente de nuevo.');
                   setErrorMsgClassName(errorMsgClassNameOn);

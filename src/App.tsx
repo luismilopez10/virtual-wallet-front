@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import { logOutInReducer } from './app/loggedInSlice';
 import { RootState, useAppDispatch } from './app/store';
 import Login from './pages/Login/Login';
 import SignIn from './pages/Signin/SignIn';
@@ -15,10 +14,10 @@ import CollaboratorOut from './components/colaboradorHistorial/CollaboratorOut';
 import CollaboratorTransaction from './components/colaboradorFormulario/CollaboratorTransaction';
 import { getAllCollaborators } from './actions/collaborators/getAllCollaborators';
 import { requestStatus } from './features/transaccionSlice';
-import { collaboratorType, selectCollaboratorStateTypeState, selectCollaboratorStateTypeStatus } from './features/collaboratorSlice';
-import { putCollaborator } from './actions/collaborators/putCollaborator';
+import { selectCollaboratorStateTypeStatus } from './features/collaboratorSlice';
 import NavbarAdmin from './components/Navbars/NavbarAdmin';
 import NavbarColab from './components/Navbars/NavbarColab';
+import { logInInReducer } from './app/loggedInSlice';
 
 export const adminEmail = 'juan.velez993@gmail.com';
 
@@ -29,15 +28,19 @@ function App() {
   const dispatch = useAppDispatch();
 
   const status = useSelector(selectCollaboratorStateTypeStatus());
-  const getCollaborators = useSelector(selectCollaboratorStateTypeState());
 
   useEffect(() => {
     if (status === requestStatus.IDLE) {
       dispatch(getAllCollaborators());
     }
+    
+    const localStorageUser = localStorage.getItem("localStorageUser");    
+    if (localStorageUser) {
+      dispatch(logInInReducer(localStorageUser));
+    }
   }, [dispatch]);
 
-  const goHome = user !== null ? (user === adminEmail ? '/inicio-admin' : '/inicio-colab') : '/login';
+  const goHome = user === adminEmail ? '/inicio-admin' : '/inicio-colab';
 
   return (
     <BrowserRouter>
@@ -65,7 +68,6 @@ function App() {
         <Route path="/ingresos" element={<CollaboratorIn />} />
         <Route path="/egresos" element={<CollaboratorOut />} />
         <Route path="/transaccion" element={<CollaboratorTransaction />} />
-
       </Routes>
     </BrowserRouter>
   )
