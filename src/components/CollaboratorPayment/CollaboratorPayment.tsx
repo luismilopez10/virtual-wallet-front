@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import readXlsxFile, { Row } from 'read-excel-file'
 import { ExcelExport, ExcelExportColumn } from '@progress/kendo-react-excel-export';
 import { getAllCollaborators } from '../../actions/collaborators/getAllCollaborators';
-import { RootState, useAppDispatch } from '../../app/store';
-import { collaboratorStateType, collaboratorType, selectCollaboratorStateTypeState, selectCollaboratorStateTypeStatus } from '../../features/collaboratorSlice';
+import { useAppDispatch } from '../../app/store';
+import { collaboratorType, selectCollaboratorStateTypeState, selectCollaboratorStateTypeStatus } from '../../features/collaboratorSlice';
 import { useSelector } from 'react-redux';
 import { putCollaborator } from '../../actions/collaborators/putCollaborator';
 import { requestStatus, transactionType } from '../../features/transaccionSlice';
@@ -13,14 +13,12 @@ import { postTransaction } from '../../actions/transactions/postTransaction';
 
 function EmployeePayment() {
 
-    const [collaborators, setCollaborators] = useState([{}])
     const [payments, setPayments] = useState<Row[]>([])
     const _export = useRef<ExcelExport | null>(null)
     const inputFile = useRef(null) as any
     const [isDownload, setIsDownload] = useState(false)
     const [isUploaded, setIsUploaded] = useState(false)
     const [fileSelected, setFileSelected] = useState(false)
-    const { user } = useSelector((state: RootState) => state.logged);
     const dispatch = useAppDispatch()
 
     const getCollaborators = useSelector(selectCollaboratorStateTypeState())
@@ -36,10 +34,8 @@ function EmployeePayment() {
         if (_export.current !== null) {
             _export.current.save();
             setIsDownload(true)
-            setCollaborators(getCollaborators)
             setIsUploaded(false)
             console.log(getCollaborators);
-
         }
     }
 
@@ -66,7 +62,6 @@ function EmployeePayment() {
 
     const payToCollaborators = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        let flag = false
         payments.forEach(payment => {
             let collaboratorFound: any = getCollaborators.find((collaborator: collaboratorType | any) => collaborator.email === payment[0])
             if (collaboratorFound) {
@@ -78,11 +73,12 @@ function EmployeePayment() {
                         contactsList: collaboratorFound.contactsList,
                         logged: collaboratorFound.logged
                     }
-                    // collaboratorToUpdate.balance += payment[1]
-                    console.log("Collaborator found");
-                    console.log(collaboratorFound);
-                    console.log("Collaborator to update");
-                    console.log(collaboratorToUpdate);
+                    console.log(collaboratorToUpdate.balance);
+                    
+                    // console.log("Collaborator found");
+                    // console.log(collaboratorFound);
+                    // console.log("Collaborator to update");
+                    // console.log(collaboratorToUpdate);
                     let transaction: transactionType = {
                         id: nanoid(),
                         source: 'juan.velez993@gmail.com',
@@ -100,13 +96,8 @@ function EmployeePayment() {
                 alert(`El correo ${payment[0]} no existe en la base de datos, para este usuario no hay transaccion`)
             }
         })
+        alert("transacción finalizada")
         setIsUploaded(false)
-    }
-
-
-
-    const updatePage = () => {
-
     }
 
     return (
@@ -159,7 +150,7 @@ function EmployeePayment() {
                                 {payments.map((payment: { toString: () => string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }[]) => {
                                     return <tr>
                                         <td>{payment[0] ? payment[0].toString() : 'null'}</td>
-                                        <td style={payment[1] ? { color: 'green' } : { color: 'red' }}>{payment[1] ? "$" + payment[1].toString() : 'null'}</td>
+                                        <td style={payment[1] && payment[1] >= 0 ? { color: 'green' } : { color: 'red' }}>{payment[1] ? "$" + payment[1].toString() : 'null'}</td>
                                     </tr>
                                 })}
                             </tbody>
