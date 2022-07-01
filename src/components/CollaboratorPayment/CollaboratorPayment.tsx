@@ -2,23 +2,24 @@ import React, { useEffect, useRef, useState } from 'react'
 import readXlsxFile, { Row } from 'read-excel-file'
 import { ExcelExport, ExcelExportColumn } from '@progress/kendo-react-excel-export';
 import { getAllCollaborators } from '../../actions/collaborators/getAllCollaborators';
-import { useAppDispatch } from '../../app/store';
+import { RootState, useAppDispatch } from '../../app/store';
 import { collaboratorStateType, collaboratorType, selectCollaboratorStateTypeState, selectCollaboratorStateTypeStatus } from '../../features/collaboratorSlice';
 import { useSelector } from 'react-redux';
 import { putCollaborator } from '../../actions/collaborators/putCollaborator';
-import { requestStatus } from '../../features/transaccionSlice';
-import { isEmpty } from '@firebase/util';
+import { requestStatus, transactionType } from '../../features/transaccionSlice';
+import { nanoid } from '@reduxjs/toolkit';
+import moment from 'moment';
+import { postTransaction } from '../../actions/transactions/postTransaction';
 
 function EmployeePayment() {
 
     const [collaborators, setCollaborators] = useState([{}])
-    const [collaboratorsToPay, setCollaboratorsToPay] = useState([{}])
     const [payments, setPayments] = useState<Row[]>([])
     const _export = useRef<ExcelExport | null>(null)
     const inputFile = useRef(null) as any
     const [isDownload, setIsDownload] = useState(false)
     const [fileSelected, setFileSelected] = useState(false)
-    const [paymentFail, setPaymentFail] = useState(false)
+    const { user } = useSelector((state: RootState) => state.logged);
     const dispatch = useAppDispatch()
 
     const getCollaborators = useSelector(selectCollaboratorStateTypeState())
@@ -55,63 +56,50 @@ function EmployeePayment() {
             inputFile.current.value = ""
             setIsDownload(false)
             setFileSelected(false)
-            setPaymentFail(false)
-            setPayments([])
         }
     }
 
     const payToCollaborators = () => {
         let flag = false
-        let collaboratorsToUpdate: any = []
-        if (!isEmpty(payments)) {
-            payments.forEach((payment:any) => {
-                let collaboratorFound: any = getCollaborators.find((collaborator: collaboratorType | any) => collaborator.email === payment[0])
-                if (collaboratorFound) {
-                    if (payment[1] >= 0 && payment[1]) {
-                        let collaboratorToUpdate: collaboratorType = {
-                            email: collaboratorFound.email,
-                            name: collaboratorFound.name,
-                            balance: collaboratorFound.balance + payment[1],
-                            contactsList: collaboratorFound.contactsList,
-                            logged: collaboratorFound.logged
-                        }
-                        // console.log("Collaborator found");
-                        // console.log(collaboratorFound);
-                        // console.log("Collaborator to update");
-                        // console.log(collaboratorToUpdate);
-                        collaboratorsToUpdate.push(collaboratorToUpdate)
-                        console.log("fuuuuuckk");
-                        console.log(collaboratorsToUpdate);
-                        setCollaboratorsToPay([...collaboratorsToUpdate])
-                        console.log(collaboratorsToPay);
-
-                    } else {
-                        alert(`El pago para ${payment[0]} contiene un valor no valido en el pago: ${payment[1]} , por favor cambiarlo e intentar de nuevo`)
-                        setPaymentFail(true)
-                        setCollaboratorsToPay([{}])
+        payments.forEach(payment => {
+            let collaboratorFound: any = getCollaborators.find((collaborator: collaboratorType | any) => collaborator.email === payment[0])
+            if (collaboratorFound) {
+                if (payment[1] >= 0) {
+                    let collaboratorToUpdate: collaboratorType = {
+                        email: collaboratorFound.email,
+                        name: collaboratorFound.name,
+                        balance: collaboratorFound.balance + payment[1],
+                        contactsList: collaboratorFound.contactsList,
+                        logged: collaboratorFound.logged
                     }
-                } else {
-                    alert(`El correo ${payment[0]} no existe en la base de datos`)
-                    setPaymentFail(true)
-                    setCollaboratorsToPay([{}])
-                }
-
-            })
-            console.log(paymentFail);
-            if (!paymentFail) {
-                console.log("----------------------------------------------------");
-                console.log(collaboratorsToPay);
-                collaboratorsToPay.forEach((collaboratorToPay: any) => {
-                    dispatch(putCollaborator(collaboratorToPay));
+                    // collaboratorToUpdate.balance += payment[1]
+                    console.log("Collaborator found");
+                    console.log(collaboratorFound);
+                    console.log("Collaborator to update");
+                    console.log(collaboratorToUpdate);
+                    let transaction: transactionType = {
+                        id: nanoid(),
+                        source: 'juan.velez993@gmail.com',
+                        receiver: collaboratorFound.email,
+                        amount: parseFloat(payment[1].toString()),
+                        date: moment(new Date()).format("DD/MM/YYYY HH:mm:ss")
+                    }
+                    dispatch(postTransaction(transaction))
+                    dispatch(putCollaborator(collaboratorToUpdate))
                     setPayments([])
-                })
-                alert("Los pagos se han realizado con éxito")
+                } else {
+                    alert(`El pago para ${payment[0]} contiene un valor no valido en el pago: ${payment[1]} , por favor cambiarlo e intentar de nuevo`)
+                }
             } else {
-                alert("No se pudo realizar los pagos")
+                alert(`El correo ${payment[0]} no existe en la base de datos, para este usuario no hay transaccion`)
             }
-        }else{
-            alert("no se ha cargado ningún archivo")
-        }
+        })
+    }
+
+
+
+    const updatePage = () => {
+
     }
 
     return (
@@ -161,8 +149,8 @@ function EmployeePayment() {
                     <tbody>
                         {payments.map(payment => {
                             return <tr>
-                                <td>{payment[0] ? payment[0].toString() : 'Null'}</td>
-                                <td>{payment[1] ? payment[1].toString() : 'Null'}</td>
+                                <td>{payment[0] ? payment[0].toString() : 'null'}</td>
+                                <td>{payment[1] ? payment[1].toString() : 'null'}</td>
                             </tr>
                         })}
                     </tbody>
@@ -180,7 +168,7 @@ function EmployeePayment() {
                         bg-red-500
                         '
                     >Quitar archivo</button>
-                    <button onClick={() => { payToCollaborators(); deleteFile() }}
+                    <button onClick={() => {payToCollaborators(); deleteFile()}}
                         className='
                         border
                         border-black 
