@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebaseConfig';
 import { adminEmail } from '../../App';
 import './PasswordReset.css';
+import { AiOutlineMail } from 'react-icons/ai';
 
 const PasswordReset = () => {
 
@@ -51,8 +52,11 @@ const PasswordReset = () => {
                 <form onSubmit={(e) => { sendEmailResetPassword(e) }}>
                     <div className="title">Recuperar contraseña</div>
                     <div className="input-box underline">
-                        <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                        <div className="underline"></div>
+                        <div>
+                            <AiOutlineMail />
+                            <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                            <div className="underline"></div>
+                        </div>
                     </div>
                     <span className={errorMsgClassName}>{errorMsg}</span>
                     <div className="input-box button">

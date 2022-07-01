@@ -16,9 +16,10 @@ const collaboratorMenu = () => {
 
 
   useEffect(() => {
-    if (user === null) {
-      navigate('/login');
-    }
+    const localStorageUser = localStorage.getItem("localStorageUser"); 
+    if (user === null && localStorageUser === null) {
+        navigate('/login');
+    } 
     if (status === requestStatus.IDLE) {
       dispatch(getAllCollaborators())
     }

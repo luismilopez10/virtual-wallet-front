@@ -14,10 +14,10 @@ const CollaboratorOut: React.FunctionComponent = () => {
     const { user } = useSelector((state: RootState) => state.logged);
 
     useEffect(() => {
-        const localStorageUser = localStorage.getItem("localStorageUser");
+        const localStorageUser = localStorage.getItem("localStorageUser"); 
         if (user === null && localStorageUser === null) {
             navigate('/login');
-        }
+        } 
         if (status === requestStatus.IDLE) {
             dispatch(getAllTransactions())
         }
