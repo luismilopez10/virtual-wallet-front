@@ -16,20 +16,6 @@ const NavbarAdmin = (props: { user: string | null; }) => {
     const getCollaborators = useSelector(selectCollaboratorStateTypeState());
 
     const logout = () => {
-        if (props.user !== null) {
-            const currentUserState = getCollaborators.filter(collaborator => collaborator.email === props.user)[0];
-
-            const updateCollaboratorlogged: collaboratorType = {
-                email: currentUserState.email,
-                name: currentUserState.name,
-                balance: currentUserState.balance,
-                contactsList: currentUserState.contactsList,
-                logged: false
-            }
-
-            dispatch(putCollaborator(updateCollaboratorlogged));
-        }
-
         dispatch(logOutInReducer());
         localStorage.removeItem("localStorageUser");
     }

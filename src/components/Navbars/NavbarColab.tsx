@@ -42,10 +42,10 @@ const NavbarAdmin = (props: { user: string | null; }) => {
 
             <ul className='nav__list'>
               <li className='nav__item'>
-                <Link to={goHome} className='nav__link'>Inicio</Link>
+                <Link to={goHome} className='nav__link'>Saldo y Movimientos</Link>
               </li>
               <li className='nav__item'>
-                <Link to='/transaccion' className='nav__link'>Transacciones</Link>
+                <Link to='/transaccion' className='nav__link'>Transferir Dinero</Link>
               </li>
               <li className='nav__item'>
                 <Link to='/login' className='nav__link' onClick={() => { logout() }}>Cerrar Sesión</Link>

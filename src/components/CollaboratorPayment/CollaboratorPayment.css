@@ -1,0 +1,118 @@
+/* ### "Descargar Archivo" button ### */
+.descargar__input-box {
+    width: 100%;
+    height: 54px;
+    position: relative;
+}
+.descargar__input-box input {
+    width: 320px;
+    height: 100%;
+    outline: none;
+    font-size: 16px;
+    border: none;
+}
+.descargar__button {
+    margin: 0px 0px 0px 0px;
+}
+.descargar__input-box input[type="submit"] {
+    background: linear-gradient(to right, #48a9e6 0%, #48a9e6 100%);
+    font-size: 17px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.descargar__input-box input[type="submit"]:hover {
+    letter-spacing: 0.5px;
+    background: linear-gradient(to left, #51BBFE 0%, #51BBFE 100%);
+}
+
+
+/* ### "Seleccionar Archivo" button ### */
+.seleccionar__input-box {
+    width: 100%;
+    height: 45px;
+    position: relative;
+}
+.seleccionar__input-box input {
+    width: 500px;
+    height: 100%;
+    outline: none;
+    font-size: 16px;
+    border: none;
+}
+.seleccionar__inputn {
+    margin: 0px 0px 0px 0px;
+}
+.seleccionar__input-box input[type="submit"] {
+    background: linear-gradient(to right, #48a9e6 0%, #48a9e6 100%);
+    font-size: 17px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.seleccionar__input-box input[type="submit"]:hover {
+    letter-spacing: 0.5px;
+    background: linear-gradient(to left, #51BBFE 0%, #51BBFE 100%);
+}
+
+
+/* ### "Pagar" button ### */
+.payment-green__input-box {
+    width: 100%;
+    height: 45px;
+    position: relative;
+}
+.payment-green__input-box input {
+    width: 200px;
+    height: 100%;
+    outline: none;
+    font-size: 16px;
+    border: none;
+}
+.payment-green__button {
+    margin: -40px 20px 0px 0px;
+}
+.payment-green__input-box input[type="submit"] {
+    background: linear-gradient(to right, #3d962b 0%, #3d962b 100%);
+    font-size: 17px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.payment-green__input-box input[type="submit"]:hover {
+    letter-spacing: 0.5px;
+    background: linear-gradient(to left, #54b641 0%, #54b641 100%);
+}
+
+
+/* ### "Quitar Archivo" button ### */
+.payment-red__input-box {
+    width: 500%;
+    height: 45px;
+    position: relative;
+}
+.payment-red__input-box input {
+    width: 200px;
+    height: 100%;
+    outline: none;
+    font-size: 16px;
+    border: none;
+}
+.payment-red__button {
+    margin: -40px 20px 0px 0px;
+}
+.payment-red__input-box input[type="submit"] {
+    background: linear-gradient(to right, #b93838 0%, #b93838 100%);
+    font-size: 17px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.payment-red__input-box input[type="submit"]:hover {
+    letter-spacing: 0.5px;
+    background: linear-gradient(to left, #e64848 0%, #e64848 100%);
+}

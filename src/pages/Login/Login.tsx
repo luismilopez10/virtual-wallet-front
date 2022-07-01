@@ -95,6 +95,7 @@ const Login = () => {
 
               if (currentUser.email === adminEmail) {
                 dispatch(logInInReducer(currentUser.email));
+                localStorage.setItem("localStorageUser", currentUser.email!);
                 navigate('/inicio-admin');
 
               } else {

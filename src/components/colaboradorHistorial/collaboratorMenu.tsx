@@ -14,7 +14,7 @@ import './CollaboratorMenu.css';
 const CollaboratorMenu = () => {
   const { user } = useSelector((state: RootState) => state.logged);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
 
   useEffect(() => {

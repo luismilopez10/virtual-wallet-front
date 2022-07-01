@@ -1,17 +1,31 @@
-.login__container form .input-box {
-    width: 100%;
+.input-box {
+    width: 80%;
     height: 45px;
-    margin-top: 25px;
     position: relative;
-  }
-  
-  .login__container form .input-box input {
+}
+
+.input-box input {
     width: 100%;
     height: 100%;
     outline: none;
     font-size: 16px;
     border: none;
-  }
-  .button {
-    margin: 40px 0 20px 0;
-  }
+}
+
+.button {
+    margin: -40px 20px 0px 0px;
+}
+
+.input-box input[type="submit"] {
+    background: linear-gradient(to right, #48a9e6 0%, #48a9e6 100%);
+    font-size: 17px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-box input[type="submit"]:hover {
+    letter-spacing: 0.5px;
+    background: linear-gradient(to left, #51BBFE 0%, #51BBFE 100%);
+}
