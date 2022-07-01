@@ -5,6 +5,7 @@ import { requestStatus, selectTransaccionFetchError, selectTransaccionState, sel
 import { getAllTransactions } from '../../actions/transactions/getAllTransactions';
 import { Link, useNavigate } from 'react-router-dom';
 import { f } from '../../App';
+import './CollaboratorIn.css'
 
 
 
@@ -28,15 +29,21 @@ const CollaboratorIn: React.FunctionComponent = () => {
     const status = useSelector(selectTransaccionStatus())
     const getAllTransacions = useSelector(selectTransaccionState())
     const collaboratorTransactionsIn = getAllTransacions.filter((transaction) => transaction.receiver === user)
-   
 
-    return (<div>
-        <table>
+
+    return (<div className='flex flex-col space-y-12'>
+        <br />
+        <div className='flex space-x-4 input-box button'>
+            <Link to='/inicio-colab'>
+                <button>Regresar</button>
+            </Link>
+        </div>
+        <table className='table-fixed border-collapse border border-black border-separate border-spacing-2' style={{ backgroundColor: 'white' }}>
             <thead>
                 <tr>
-                    <td>Fecha:</td>
-                    <td>Origen:</td>
-                    <td>Cantidad:</td>
+                    <td className='border-collapse border border-black' style={{ backgroundColor: '#0e3b43', color: 'white' }}>Fecha:</td>
+                    <td className='border-collapse border border-black' style={{ backgroundColor: '#0e3b43', color: 'white' }}>Origen:</td>
+                    <td className='border-collapse border border-black' style={{ backgroundColor: '#0e3b43', color: 'white' }}>Cantidad:</td>
                 </tr>
             </thead>
 
@@ -50,10 +57,7 @@ const CollaboratorIn: React.FunctionComponent = () => {
                 </tbody>
             })}
         </table>
-        <br />
-        <Link to='/inicio-colab'>
-            <button>Regresar</button>
-        </Link>
+
 
 
     </div>)
