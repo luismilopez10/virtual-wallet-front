@@ -12,6 +12,8 @@ import { requestStatus } from "../../features/transaccionSlice";
 import { getAllCollaborators } from "../../actions/collaborators/getAllCollaborators";
 import { useAppDispatch } from "../../app/store";
 import { putCollaborator } from "../../actions/collaborators/putCollaborator";
+import { RiLockPasswordLine } from 'react-icons/ri';
+import { AiOutlineMail } from 'react-icons/ai';
 
 const Login = () => {
 
@@ -152,12 +154,18 @@ const Login = () => {
         <form autoComplete="on" onSubmit={(e) => logInWithEmailAndPassword(e)}>
           <div className="title">Inicio de Sesión</div>
           <div className="input-box underline">
-            <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <div className="underline"></div>
+            <div>
+              <AiOutlineMail />
+              <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <div className="underline"></div>
+            </div>
           </div>
           <div className="input-box">
-            <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <div className="underline"></div>
+            <div>
+              <RiLockPasswordLine />
+              <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <div className="underline"></div>
+            </div>
           </div>
           <span className="option"><a href="" onClick={(e) => { resetPassword(e) }}>Recuperar contraseña</a></span>
           <br />
