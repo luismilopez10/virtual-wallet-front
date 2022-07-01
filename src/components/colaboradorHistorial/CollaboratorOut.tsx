@@ -5,6 +5,7 @@ import { requestStatus, selectTransaccionFetchError, selectTransaccionState, sel
 
 import { Link, useNavigate } from 'react-router-dom';
 import { getAllTransactions } from '../../actions/transactions/getAllTransactions';
+import { f } from '../../App';
 
 
 const CollaboratorOut: React.FunctionComponent = () => {
@@ -44,7 +45,7 @@ const CollaboratorOut: React.FunctionComponent = () => {
                     <tr>
                         <td>{product.date}</td>
                         <td>{product.receiver}</td>
-                        <td style={{ color: 'red' }}>-{product.amount}</td>
+                        <td style={{ color: 'red' }}>-{f.format(product.amount)}</td>
                     </tr>
                 </tbody>
             })}

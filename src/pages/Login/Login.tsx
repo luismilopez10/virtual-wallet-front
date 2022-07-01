@@ -18,8 +18,10 @@ import { AiOutlineMail } from 'react-icons/ai';
 const Login = () => {
 
   // let currentUser: User | null = null;
+  const localStorageUser = localStorage.getItem("localStorageUser");
   const errorMsgClassNameOn = 'login__error-message-on';
   const errorMsgClassNameOff = 'login__error-message-off';
+  const goHome = localStorageUser === adminEmail ? '/inicio-admin' : '/inicio-colab';
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -35,6 +37,11 @@ const Login = () => {
   useEffect(() => {
     if (status === requestStatus.IDLE) {
       dispatch(getAllCollaborators());
+    }
+
+    const localStorageUser = localStorage.getItem("localStorageUser");
+    if (localStorageUser !== null) {
+      navigate(goHome);
     }
     // initializeApp(firebaseConfig);
     // auth.onAuthStateChanged((user) => {

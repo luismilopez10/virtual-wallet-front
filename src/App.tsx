@@ -21,6 +21,12 @@ import { logInInReducer } from './app/loggedInSlice';
 
 export const adminEmail = 'juan.velez993@gmail.com';
 
+export const f = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'COP',
+  minimumFractionDigits: 2
+});
+
 function App() {
 
   const { user } = useSelector((state: RootState) => state.logged);

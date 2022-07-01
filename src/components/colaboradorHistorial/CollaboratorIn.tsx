@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { requestStatus, selectTransaccionFetchError, selectTransaccionState, selectTransaccionStatus, transactionType } from "../../features/transaccionSlice";
 import { getAllTransactions } from '../../actions/transactions/getAllTransactions';
 import { Link, useNavigate } from 'react-router-dom';
+import { f } from '../../App';
 
 
 
@@ -44,7 +45,7 @@ const CollaboratorIn: React.FunctionComponent = () => {
                     <tr>
                         <td>{product.date}</td>
                         <td>{product.source}</td>
-                        <td style={{color: 'green'}}>+{product.amount}</td>
+                        <td style={{color: 'green'}}>{f.format(product.amount)}</td>
                     </tr>
                 </tbody>
             })}

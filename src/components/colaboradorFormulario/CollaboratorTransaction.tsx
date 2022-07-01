@@ -19,10 +19,10 @@ const CollaboratorTransaction: React.FunctionComponent = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const localStorageUser = localStorage.getItem("localStorageUser"); 
+        const localStorageUser = localStorage.getItem("localStorageUser");
         if (user === null && localStorageUser === null) {
             navigate('/login');
-        } 
+        }
         if (status === requestStatus.IDLE) {
             dispatch(getAllCollaborators())
         }
@@ -33,13 +33,13 @@ const CollaboratorTransaction: React.FunctionComponent = () => {
     const getCollaborators = useSelector(selectCollaboratorStateTypeState())
     const currentCollaborator = getCollaborators.find((collaborator) => collaborator.email === user)
 
-    
-     const onSendTransaction = async (e: React.FormEvent<HTMLFormElement>) => {
+
+    const onSendTransaction = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (reciever && amount) {
-            if (amount <= currentCollaborator?.balance!){
-                if(reciever!=currentCollaborator?.email){
-                    let currentReciever= getCollaborators.find((collab) => collab.email === reciever)
+            if (amount <= currentCollaborator?.balance!) {
+                if (reciever != currentCollaborator?.email) {
+                    let currentReciever = getCollaborators.find((collab) => collab.email === reciever)
 
                     if (currentReciever) {
                         const addedTransaction: transactionType = {
@@ -55,10 +55,10 @@ const CollaboratorTransaction: React.FunctionComponent = () => {
 
                         const updatedSource: collaboratorType = {
                             email: currentCollaborator?.email!,
-                            name:currentCollaborator?.name!,
-                            balance: currentCollaborator?.balance!-amount,
-                            contactsList:currentCollaborator?.contactsList!,
-                            logged:currentCollaborator?.logged!
+                            name: currentCollaborator?.name!,
+                            balance: currentCollaborator?.balance! - amount,
+                            contactsList: currentCollaborator?.contactsList!,
+                            logged: currentCollaborator?.logged!
                         }
 
                         const updatedReciever: collaboratorType = {
@@ -66,7 +66,7 @@ const CollaboratorTransaction: React.FunctionComponent = () => {
                             name: currentReciever.name,
                             balance: currentReciever.balance + amount,
                             contactsList: currentReciever.contactsList,
-                            logged:currentReciever.logged
+                            logged: currentReciever.logged
                         }
 
                         dispatch(putCollaborator(updatedSource))
@@ -75,49 +75,50 @@ const CollaboratorTransaction: React.FunctionComponent = () => {
                         setAmount(0)
                         navigate('/inicio-colab')
 
-                    }else{
+                    } else {
                         alert('La cuenta destino no se encuentra en el sistema')
                         setReciever("")
                     }
-                }else {
+                } else {
                     alert('Esta transaccion es redundante')
                     setReciever("")
                 }
             } else {
-            alert('El dinero a enviar no puede ser mayor que su saldo')
-            setAmount(0)
+                alert('El dinero a enviar no puede ser mayor que su saldo')
+                setAmount(0)
             }
         } else {
             alert('Debe haber un usuario y un valor para que se realize la transaccion')
             setReciever('')
             setAmount(0)
-           }
         }
-    
+    }
+
 
     return (
-        <div>
-            <br/>
-            <form onSubmit={(e) => onSendTransaction(e)}>
-                <div>
-                    <label>Destinatario:</label>
-                    <input type='text' value={reciever} placeholder='Destinatario' onChange={(e) => setReciever(e.target.value)} ></input>
-                </div>
+        <div className='login__body'>
+            <div className="login__container">
+                <form autoComplete="on" onSubmit={(e) => onSendTransaction(e)}>
+                    {/* <Link to='/inicio-colab'>
+                        <button>Regresar</button>
+                    </Link> */}
+                    <div className="title">Enviar dinero</div>
+                    <div className="input-box underline">
+                        <input type="text" placeholder="Destinatario" value={reciever} onChange={(e) => setReciever(e.target.value)} required />
+                        <div className="underline"></div>
+                    </div>
+                    <div className="input-box">
+                        <input type="number" placeholder="Valor" value={amount} onChange={(e) => setAmount(Number(e.target.value))} required />
+                        <div className="underline"></div>
+                    </div>
+                    <br />
+                    <div className="input-box button">
+                        <input type="submit" name="" value="Enviar dinero" />
+                    </div>
+                </form>
                 <br />
-                <div>
-                    <label>Valor:</label>
-                    <input type='number' value={amount} onChange={(e) => setAmount(Number(e.target.value))}  min='0' ></input>
-                </div>
-                <br />
-                <input type='submit' value='Enviar dinero' />
-            </form>
-            <br />
-            <Link to='/inicio-colab'>
-                <button>Regresar</button>
-            </Link>
+            </div>
         </div>
-        
-        
     )
 };
 
